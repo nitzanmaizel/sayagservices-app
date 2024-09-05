@@ -1,0 +1,71 @@
+import { TableData } from '../components/CreateDoc/CreateDocument';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+type FetchAPIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+interface FetchAPIOptions {
+  method?: FetchAPIMethod;
+  headers?: HeadersInit;
+  body?: Record<string, unknown> | TableData | null;
+  queryParams?: Record<string, string | number>;
+  signal?: AbortSignal;
+}
+
+const accessToken = localStorage.getItem('accessToken');
+
+async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Promise<T> {
+  const { method = 'GET', headers = {}, body = null, queryParams = {}, signal } = options;
+
+  try {
+    const queryString = new URLSearchParams(queryParams as Record<string, string>).toString();
+    const fullUrl = queryString
+      ? `${API_BASE_URL}${endpoint}?${queryString}`
+      : `${API_BASE_URL}${endpoint}`;
+
+    const fetchOptions: RequestInit = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        ...headers,
+      },
+      signal,
+      credentials: 'include',
+    };
+
+    if (['POST', 'PUT', 'DELETE'].includes(method) && body) {
+      fetchOptions.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(fullUrl, fetchOptions);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      let errorMessage = `HTTP error! status: ${response.status}`;
+
+      try {
+        const errorData = JSON.parse(errorText);
+        if (errorData.message) {
+          errorMessage = errorData.message;
+        }
+      } catch (jsonError) {
+        console.warn('Failed to parse error response as JSON:', jsonError);
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    const data: T = await response.json();
+    return data;
+  } catch (error) {
+    if ((error as Error).name === 'AbortError') {
+      console.log('Fetch request was aborted');
+    } else {
+      console.error('Fetch API error:', error);
+    }
+    throw error;
+  }
+}
+
+export { fetchAPI };

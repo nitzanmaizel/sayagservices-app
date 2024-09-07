@@ -1,38 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../hooks/useUser';
-import GoogleButton from '../button/GoogleButton';
-import styles from './Navbar.module.scss';
+import { AppBar, Avatar, Box } from '@mui/material';
+import Sidebar from '../Sidebar/Sidebar';
 
 const Navbar: React.FC = () => {
   const { userInfo } = useUser();
   return (
-    <nav className={styles.navbarWrapper}>
-      <div className='navbar-logo'>
-        <Link to='/'>
-          <img src='/assets/logo.png' width='105' alt='Logo' />
-        </Link>
-      </div>
-      <div className={styles.navLinks}>
-        {userInfo ? (
+    <AppBar position='sticky' sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Link to='/'>
+        <Box
+          component='img'
+          sx={{ height: 105, marginLeft: 1, maxHeight: { md: 80, xs: 70 } }}
+          alt='Sayag Services'
+          src='/assets/logo.png'
+        />
+      </Link>
+      <Box display={'flex'}>
+        {userInfo && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Link to='/dashboard'>Dashboard</Link>
-            <img
-              src={userInfo.picture}
-              width='35'
-              alt='User Avatar'
-              style={{ borderRadius: '50%', marginRight: '10px' }}
-            />
-            <span style={{ marginRight: '10px' }}>{userInfo.name}</span>
-            <div className='justify-center'>
-              <GoogleButton />
-            </div>
+            <Avatar src={userInfo.picture} alt={userInfo.name} />
           </div>
-        ) : (
-          <GoogleButton />
         )}
-      </div>
-    </nav>
+        <Sidebar />
+      </Box>
+    </AppBar>
   );
 };
 

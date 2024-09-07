@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { fetchAPI } from '../../services/apiServices';
+import { fetchAPI } from '../../../services/apiServices';
+import PageWrapper from '../../PageWrapper';
 
-// Define the structure for cell and row data
 interface TableCell {
   text: string;
   bold?: boolean;
@@ -32,7 +32,7 @@ const defaultTableData = {
   ],
 };
 
-const CreateDocument: React.FC = () => {
+const CreateDocPage: React.FC = () => {
   const [tableData, setTableData] = useState<TableData>(defaultTableData);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -78,7 +78,7 @@ const CreateDocument: React.FC = () => {
   };
 
   return (
-    <div className='container'>
+    <PageWrapper>
       <h1>Create a New Document</h1>
       <form style={{ direction: 'rtl' }} onSubmit={handleSubmit}>
         <label htmlFor='title'>שם המסמך:</label>
@@ -131,8 +131,8 @@ const CreateDocument: React.FC = () => {
           {isSubmitting ? 'יוצר מסמך...' : 'יצירת מסמך'}
         </button>
       </form>
-    </div>
+    </PageWrapper>
   );
 };
 
-export default CreateDocument;
+export default CreateDocPage;

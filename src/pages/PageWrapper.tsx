@@ -12,7 +12,7 @@ const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          minHeight: { md: 'calc(100vh - 86px - 40px)', xs: 'calc(100vh - 76px - 40px)' },
+          minHeight: { md: 'calc(100dvh - 86px - 40px)', xs: 'calc(100dvh - 76px - 40px)' },
         }}
       >
         {children}

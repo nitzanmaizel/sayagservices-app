@@ -1,6 +1,6 @@
 import React from 'react';
-import PageWrapper from '../PageWrapper';
 import { Box } from '@mui/material';
+import PageWrapper from './PageWrapper';
 
 const DashboardPage: React.FC = () => {
   return (

@@ -1,38 +1,23 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import FindInPageIcon from '@mui/icons-material/FindInPage';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import DescriptionIcon from '@mui/icons-material/Description';
-import InfoIcon from '@mui/icons-material/Info';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import HomeIcon from '@mui/icons-material/Home';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { Divider, Box, Drawer, Button } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+
 import { useUser } from '../../hooks/useUser';
-import { Divider } from '@mui/material';
+import IconWrapper from '../IconWrapper/IconWrapper';
 
 const SidebarList = [
-  { id: '1', text: 'Home', icon: <HomeIcon />, link: '/' },
-  { id: '2', text: 'Dashboard', icon: <DashboardIcon />, link: '/dashboard' },
-  { id: '3', text: 'Create Doc', icon: <NoteAddIcon />, link: '/create' },
-  { id: '4', text: 'Recent Docs', icon: <DescriptionIcon />, link: '/recent' },
-  { id: '5', text: 'Search Doc', icon: <FindInPageIcon />, link: '/search' },
-  { id: '6', text: 'About', icon: <InfoIcon />, link: '/about' },
+  { id: '1', text: 'Home', icon: 'home', link: '/' },
+  { id: '2', text: 'Dashboard', icon: 'dashboard', link: '/dashboard' },
+  { id: '3', text: 'Create Doc', icon: 'addDoc', link: '/create' },
+  { id: '4', text: 'Recent Docs', icon: 'doc', link: '/recent' },
+  { id: '5', text: 'Search Doc', icon: 'searchDoc', link: '/search' },
+  { id: '6', text: 'About', icon: 'info', link: '/about' },
 ];
 
 const Sidebar: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-
   const { userInfo, login, logout } = useUser();
 
   const navigate = useNavigate();
@@ -47,18 +32,20 @@ const Sidebar: React.FC = () => {
         {SidebarList.map(({ id, text, icon, link }) => (
           <ListItem key={id} disablePadding sx={{ margin: 0 }}>
             <ListItemButton onClick={() => navigate(link)}>
-              <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
+              <ListItemIcon>
+                <IconWrapper type={icon} />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
         ))}
         <Divider />
         <ListItem key='logout' disablePadding>
           <ListItemButton onClick={logout}>
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
             <ListItemText primary='Logout' />
+            <ListItemIcon>
+              <IconWrapper type='logout' />
+            </ListItemIcon>
           </ListItemButton>
         </ListItem>
       </List>
@@ -68,12 +55,12 @@ const Sidebar: React.FC = () => {
   const LoginDrawer = (
     <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
       <List>
-        <ListItem key='1' disablePadding>
+        <ListItem key='login' disablePadding>
           <ListItemButton onClick={login}>
-            <ListItemIcon>
-              <LoginIcon />
-            </ListItemIcon>
             <ListItemText primary='Login' />
+            <ListItemIcon>
+              <IconWrapper type='login' />
+            </ListItemIcon>
           </ListItemButton>
         </ListItem>
       </List>
@@ -83,7 +70,7 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <Button onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize='large' sx={{ color: '#fff' }} />
+        <IconWrapper type='menu' fontSize='large' sx={{ color: '#fff' }} />
       </Button>
       <Drawer anchor='right' open={open} onClose={toggleDrawer(false)}>
         {userInfo ? DrawerList : LoginDrawer}

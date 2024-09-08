@@ -1,8 +1,9 @@
-import { TableData } from '../components/CreateDoc/CreateDocument';
+import { TableData } from '../pages/CreateDocPage';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 type FetchAPIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type FetchAPIResponseType = 'json' | 'text' | 'blob';
 
 interface FetchAPIOptions {
   method?: FetchAPIMethod;
@@ -10,12 +11,20 @@ interface FetchAPIOptions {
   body?: Record<string, unknown> | TableData | null;
   queryParams?: Record<string, string | number>;
   signal?: AbortSignal;
+  responseType?: FetchAPIResponseType; // Add responseType here
 }
 
 const accessToken = localStorage.getItem('accessToken');
 
 async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Promise<T> {
-  const { method = 'GET', headers = {}, body = null, queryParams = {}, signal } = options;
+  const {
+    method = 'GET',
+    headers = {},
+    body = null,
+    queryParams = {},
+    signal,
+    responseType = 'json', // Default responseType to 'json'
+  } = options;
 
   try {
     const queryString = new URLSearchParams(queryParams as Record<string, string>).toString();
@@ -56,8 +65,16 @@ async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Pro
       throw new Error(errorMessage);
     }
 
-    const data: T = await response.json();
-    return data;
+    // Handle different response types
+    switch (responseType) {
+      case 'blob':
+        return (await response.blob()) as unknown as T;
+      case 'text':
+        return (await response.text()) as unknown as T;
+      case 'json':
+      default:
+        return (await response.json()) as T;
+    }
   } catch (error) {
     if ((error as Error).name === 'AbortError') {
       console.log('Fetch request was aborted');

@@ -1,9 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import DashboardPage from './pages/Dashboard/Dashboard';
-import CreateDocPage from './pages/Dashboard/Create/CreateDocPage';
-import RecentDocsPage from './pages/Dashboard/RecentDocs/RecentDocsPage';
+import CreateDocPage from './pages/CreateDocPage';
+import RecentDocsPage from './pages/RecentDocsPage';
 import PageWrapper from './pages/PageWrapper';
+import DashboardPage from './pages/Dashboard';
+import SearchDocPage from './pages/SearchDocPage';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Route path='/create' element={<CreateDocPage />} />
       <Route path='/dashboard' element={<DashboardPage />} />
       <Route path='/recent' element={<RecentDocsPage />} />
+      <Route path='/search' element={<SearchDocPage />} />
     </Routes>
   );
 };

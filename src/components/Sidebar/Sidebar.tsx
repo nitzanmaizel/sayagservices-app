@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
           <ListItem key={id} disablePadding sx={{ margin: 0 }}>
             <ListItemButton onClick={() => navigate(link)}>
               <ListItemText primary={text} />
-              <ListItemIcon>
+              <ListItemIcon sx={{ justifyContent: 'center' }}>
                 <IconWrapper type={icon} />
               </ListItemIcon>
             </ListItemButton>
@@ -43,7 +43,7 @@ const Sidebar: React.FC = () => {
         <ListItem key='logout' disablePadding>
           <ListItemButton onClick={logout}>
             <ListItemText primary='Logout' />
-            <ListItemIcon>
+            <ListItemIcon sx={{ justifyContent: 'center' }}>
               <IconWrapper type='logout' />
             </ListItemIcon>
           </ListItemButton>
@@ -58,7 +58,7 @@ const Sidebar: React.FC = () => {
         <ListItem key='login' disablePadding>
           <ListItemButton onClick={login}>
             <ListItemText primary='Login' />
-            <ListItemIcon>
+            <ListItemIcon sx={{ justifyContent: 'center' }}>
               <IconWrapper type='login' />
             </ListItemIcon>
           </ListItemButton>

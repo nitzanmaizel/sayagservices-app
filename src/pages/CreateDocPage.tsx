@@ -108,6 +108,14 @@ const CreateDocPage: React.FC = () => {
             לחץ כאן
           </Link>
         </Typography>
+
+        <Typography textAlign='center' variant='h6'>
+          תוכל למצוא את המסמך בדף של <Link to='/recent'>המסמכים האחרונים</Link> שלך
+        </Typography>
+        <Typography textAlign='center' variant='body1' sx={{ direction: 'rtl' }}>
+          *שים לב בגלל שמסמך חדש התמונה של המסמך תראה ריקה אתה עדין יכול לפתוח אותו ולהוריד אותו
+          כPDF
+        </Typography>
         <Button
           variant='contained'
           color='primary'
@@ -148,7 +156,7 @@ const CreateDocPage: React.FC = () => {
 
         {tableData.rows.map((row, rowIndex) => (
           <Box key={rowIndex} sx={{ marginBottom: 2 }}>
-            <Typography variant='h6' gutterBottom>
+            <Typography variant='h6' gutterBottom textAlign={'center'}>
               שורה {rowIndex + 1}
             </Typography>
             <Stack spacing={2}>

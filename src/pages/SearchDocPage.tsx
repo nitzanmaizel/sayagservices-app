@@ -68,12 +68,12 @@ const SearchDocPage: React.FC = () => {
       {error && <Typography color='error'>{error}</Typography>}
 
       {searchResults && searchResults.length > 0 && (
-        <Box>
+        <>
           <Typography variant='h6' gutterBottom textAlign={'center'}>
             תוצאות חיפוש
           </Typography>
           <DocsList documents={searchResults} />
-        </Box>
+        </>
       )}
     </PageWrapper>
   );

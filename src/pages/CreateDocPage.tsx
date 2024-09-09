@@ -77,13 +77,13 @@ const CreateDocPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const { docData } = (await fetchAPI('/docs/create', {
+      const { documentId, title } = await fetchAPI<NewDoc>('/docs/create', {
         method: 'POST',
         body: tableData,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      })) as any;
-      if (docData.documentId) {
-        setNewDoc({ title: docData.title, documentId: docData.documentId });
+      });
+
+      if (documentId) {
+        setNewDoc({ title, documentId });
       }
     } catch (error) {
       console.error('Error during form submission:', error);

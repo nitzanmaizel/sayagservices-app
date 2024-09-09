@@ -13,6 +13,7 @@ const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           flexDirection: 'column',
           alignItems: 'center',
           minHeight: { md: 'calc(100dvh - 86px - 40px)', xs: 'calc(100dvh - 76px - 40px)' },
+          width: { xs: '100%', md: '50%' },
         }}
       >
         {children}

@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
           <h1>Sayag Services</h1>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', fontSize: '20px' }}>
-          <p>Welcome, {userInfo?.name}</p>
+          <p>Welcome {userInfo?.name}</p>
         </div>
       </div>
     </PageWrapper>

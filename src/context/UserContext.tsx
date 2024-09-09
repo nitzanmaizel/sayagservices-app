@@ -16,8 +16,6 @@ type UserContextType = {
   logout: () => void;
 };
 
-const accessToken = localStorage.getItem('accessToken');
-
 const GoogleScopes = import.meta.env.VITE_GOOGLE_AUTH_SCOPE;
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -33,9 +31,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLoading(true);
         setError(null);
 
-        localStorage.setItem('accessToken', tokenResponse.access_token);
+        const accessToken = tokenResponse.access_token;
+        localStorage.setItem('accessToken', accessToken);
 
-        await fetchUserInfo(tokenResponse.access_token);
+        await fetchUserInfo(accessToken);
       } catch (error) {
         setError('Error during authentication.');
         console.error('Error authenticating user:', error);
@@ -48,7 +47,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     prompt: 'consent',
   });
 
-  // Function to trigger the login flow
   const login = useCallback(() => {
     handleGoogleLogin();
   }, [handleGoogleLogin]);
@@ -77,10 +75,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
-    if (!accessToken) return;
+    const storedAccessToken = localStorage.getItem('accessToken');
+    if (!storedAccessToken) return;
+
     setLoading(true);
     setError(null);
-    fetchUserInfo(accessToken);
+    fetchUserInfo(storedAccessToken);
   }, []);
 
   return (

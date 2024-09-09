@@ -77,7 +77,7 @@ async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Pro
     }
   } catch (error) {
     if ((error as Error).name === 'AbortError') {
-      console.log('Fetch request was aborted');
+      console.error('Fetch request was aborted');
     } else {
       console.error('Fetch API error:', error);
     }

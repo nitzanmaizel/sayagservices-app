@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PageWrapper from './PageWrapper';
-import { Box, Button, TextField, Typography, Stack, CircularProgress } from '@mui/material';
+import { Button, TextField, Typography, Stack, CircularProgress } from '@mui/material';
 import { useDocs } from '../hooks/useDocs';
 import DocsList from '../components/DocList/DocList';
 

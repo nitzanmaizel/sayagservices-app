@@ -16,6 +16,9 @@ type UserContextType = {
   logout: () => void;
 };
 
+const googleScopes =
+  'openid profile email  https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email  https://www.googleapis.com/auth/documents  https://www.googleapis.com/auth/drive';
+
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -41,8 +44,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     },
     onError: () => setError('Login Failed'),
-    scope:
-      'openid profile email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive',
+    scope: googleScopes,
     prompt: 'consent',
   });
 

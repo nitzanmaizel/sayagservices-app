@@ -16,8 +16,6 @@ type UserContextType = {
   logout: () => void;
 };
 
-const GoogleScopes = import.meta.env.VITE_GOOGLE_AUTH_SCOPE;
-
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -43,7 +41,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     },
     onError: () => setError('Login Failed'),
-    scope: GoogleScopes,
+    scope:
+      'openid profile email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive',
     prompt: 'consent',
   });
 
@@ -79,7 +78,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('accessToken');
     if (!storedAccessToken) {
-      // No token, set loading to false
       setLoading(false);
       return;
     }

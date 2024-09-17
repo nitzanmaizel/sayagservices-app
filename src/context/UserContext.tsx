@@ -22,7 +22,7 @@ export const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const handleGoogleLogin = useGoogleLogin({
@@ -69,6 +69,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (error) {
       setError('Error fetching user info.');
       console.error('Error fetching user info:', error);
+      localStorage.removeItem('accessToken');
+      setUserInfo(null);
     } finally {
       setLoading(false);
     }
@@ -76,9 +78,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('accessToken');
-    if (!storedAccessToken) return;
+    if (!storedAccessToken) {
+      // No token, set loading to false
+      setLoading(false);
+      return;
+    }
 
-    setLoading(true);
     setError(null);
     fetchUserInfo(storedAccessToken);
   }, []);

@@ -4,7 +4,7 @@ import { CircularProgress } from '@mui/material';
 import { useUser } from '../hooks/useUser';
 
 const ProtectedRoute: React.FC = () => {
-  const { loading, userInfo } = useUser();
+  const { userInfo, loading } = useUser();
   const location = useLocation();
 
   if (loading) {
@@ -15,11 +15,11 @@ const ProtectedRoute: React.FC = () => {
     );
   }
 
-  if (!userInfo) {
+  if (userInfo) {
+    return <Outlet />;
+  } else {
     return <Navigate to='/' replace state={{ from: location }} />;
   }
-
-  return <Outlet />;
 };
 
 export default ProtectedRoute;

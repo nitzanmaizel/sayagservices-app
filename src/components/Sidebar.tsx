@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Divider, Box, Drawer, Button } from '@mui/material';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
-import { useUser } from '../../hooks/useUser';
-import IconWrapper from '../IconWrapper/IconWrapper';
+import { useUser } from '../hooks/useUser';
+import IconWrapper from './IconWrapper/IconWrapper';
 
 const SidebarList = [
   { id: '1', text: 'Home', icon: 'home', link: '/' },

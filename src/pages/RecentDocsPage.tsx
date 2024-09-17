@@ -2,7 +2,7 @@ import React from 'react';
 import { CircularProgress, Typography } from '@mui/material';
 import { useDocs } from '../hooks/useDocs';
 import PageWrapper from './PageWrapper';
-import DocsList from '../components/DocList/DocList';
+import DocsList from '../components/DocList';
 
 const RecentDocsPage = () => {
   const { recentDocs, loading, getRecentDocs } = useDocs();

@@ -8,8 +8,8 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { formatDateTime } from '../../utils/date';
-import { useDocs } from '../../hooks/useDocs';
+import { formatDateTime } from '../utils/date';
+import { useDocs } from '../hooks/useDocs';
 
 interface Document {
   id: string;

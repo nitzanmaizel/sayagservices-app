@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useUser } from '../../hooks/useUser';
+import { useUser } from '../hooks/useUser';
 import { AppBar, Avatar, Box } from '@mui/material';
-import Sidebar from '../Sidebar/Sidebar';
+import Sidebar from './Sidebar';
 
 const Navbar: React.FC = () => {
   const { userInfo } = useUser();

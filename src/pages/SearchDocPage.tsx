@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PageWrapper from './PageWrapper';
 import { Button, TextField, Typography, Stack, CircularProgress } from '@mui/material';
 import { useDocs } from '../hooks/useDocs';
-import DocsList from '../components/DocList/DocList';
+import DocsList from '../components/DocList';
 
 const SearchDocPage: React.FC = () => {
   const [name, setName] = useState<string>('');

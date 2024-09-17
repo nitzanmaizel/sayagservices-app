@@ -5,6 +5,8 @@ import RecentDocsPage from './pages/RecentDocsPage';
 import PageWrapper from './pages/PageWrapper';
 import DashboardPage from './pages/Dashboard';
 import SearchDocPage from './pages/SearchDocPage';
+import NewDocPage from './pages/NewDocPage';
+import ErrorPage from './pages/ErrorPage';
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
       <Route path='/dashboard' element={<DashboardPage />} />
       <Route path='/recent' element={<RecentDocsPage />} />
       <Route path='/search' element={<SearchDocPage />} />
+      <Route path='/new' element={<NewDocPage />} />
+      <Route path='/error' element={<ErrorPage />} />
     </Routes>
   );
 };

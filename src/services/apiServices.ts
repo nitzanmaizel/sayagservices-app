@@ -1,4 +1,4 @@
-import { TableData } from '../pages/CreateDocPage';
+import { TableData } from '../types/table';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 

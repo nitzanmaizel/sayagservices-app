@@ -1,6 +1,7 @@
 import React, { createContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { useGoogleLogin, googleLogout, TokenResponse } from '@react-oauth/google';
 import { fetchAPI } from '../services/apiServices';
+import { setAccessToken } from '../tokenManager';
 
 type UserInfo = {
   name: string;
@@ -33,7 +34,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setError(null);
 
         const accessToken = tokenResponse.access_token;
-        localStorage.setItem('accessToken', accessToken);
+        setAccessToken(accessToken);
 
         await fetchUserInfo(accessToken);
       } catch (error) {
@@ -54,7 +55,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = useCallback(() => {
     setUserInfo(null);
-    localStorage.removeItem('accessToken');
+    setAccessToken(null);
     googleLogout();
   }, []);
 

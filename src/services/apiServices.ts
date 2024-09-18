@@ -1,3 +1,4 @@
+import { getAccessToken } from '../tokenManager';
 import { TableData } from '../types/table';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -14,8 +15,6 @@ interface FetchAPIOptions {
   responseType?: FetchAPIResponseType; // Add responseType here
 }
 
-const accessToken = localStorage.getItem('accessToken');
-
 async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Promise<T> {
   const {
     method = 'GET',
@@ -25,6 +24,8 @@ async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Pro
     signal,
     responseType = 'json', // Default responseType to 'json'
   } = options;
+
+  const accessToken = getAccessToken();
 
   try {
     const queryString = new URLSearchParams(queryParams as Record<string, string>).toString();

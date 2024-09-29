@@ -1,7 +1,7 @@
-let accessToken: string | null = localStorage.getItem('accessToken');
+let accessToken: string | null = localStorage.getItem('jwtToken');
 
 window.addEventListener('storage', (event) => {
-  if (event.key === 'accessToken') {
+  if (event.key === 'jwtToken') {
     accessToken = event.newValue;
   }
 });
@@ -9,9 +9,9 @@ window.addEventListener('storage', (event) => {
 export function setAccessToken(token: string | null) {
   accessToken = token;
   if (token) {
-    localStorage.setItem('accessToken', token);
+    localStorage.setItem('jwtToken', token);
   } else {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('jwtToken');
   }
 }
 

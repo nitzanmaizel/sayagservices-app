@@ -1,7 +1,8 @@
 import React, { createContext, useState, ReactNode, useCallback, useEffect } from 'react';
-import { useGoogleLogin, googleLogout, TokenResponse } from '@react-oauth/google';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { fetchAPI } from '../services/apiServices';
-import { setAccessToken } from '../tokenManager';
+import { getAccessToken, setAccessToken } from '../tokenManager';
 
 type UserInfo = {
   name: string;
@@ -17,8 +18,7 @@ type UserContextType = {
   logout: () => void;
 };
 
-const googleScopes =
-  'openid profile email  https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email  https://www.googleapis.com/auth/documents  https://www.googleapis.com/auth/drive';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -27,67 +27,61 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse: TokenResponse) => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const accessToken = tokenResponse.access_token;
-        setAccessToken(accessToken);
-
-        await fetchUserInfo(accessToken);
-      } catch (error) {
-        setError('Error during authentication.');
-        console.error('Error authenticating user:', error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    onError: () => setError('Login Failed'),
-    scope: googleScopes,
-    prompt: 'consent',
-  });
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const login = useCallback(() => {
-    handleGoogleLogin();
-  }, [handleGoogleLogin]);
+    window.location.href = `${API_BASE_URL}/auth/login`;
+  }, []);
 
   const logout = useCallback(() => {
     setUserInfo(null);
     setAccessToken(null);
-    googleLogout();
-  }, []);
+    navigate('/');
+  }, [navigate]);
 
-  const fetchUserInfo = async (accessToken: string) => {
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const urlToken = params.get('token');
+
+    if (urlToken) {
+      setAccessToken(urlToken);
+      window.history.replaceState({}, document.title, location.pathname);
+    } else {
+      setLoading(false);
+    }
+  }, [location]);
+
+  const fetchUserInfo = useCallback(async () => {
     try {
-      const { name, picture, email } = await fetchAPI<UserInfo>('/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: { access_token: accessToken },
-      });
+      setLoading(true);
+      setError(null);
 
-      setUserInfo({ name, picture, email });
+      const data = await fetchAPI<UserInfo>(`/auth/user`);
+
+      setUserInfo({ name: data.name, email: data.email, picture: data.picture });
     } catch (error) {
       setError('Error fetching user info.');
       console.error('Error fetching user info:', error);
-      localStorage.removeItem('accessToken');
+      setAccessToken(null);
       setUserInfo(null);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = getAccessToken();
+    console.log({ storedAccessToken });
+
     if (!storedAccessToken) {
       setLoading(false);
       return;
     }
 
     setError(null);
-    fetchUserInfo(storedAccessToken);
-  }, []);
+    fetchUserInfo();
+  }, [fetchUserInfo]);
 
   return (
     <UserContext.Provider value={{ userInfo, loading, error, login, logout }}>

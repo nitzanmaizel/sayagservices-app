@@ -4,6 +4,8 @@ import { Button, Typography } from '@mui/material';
 
 import PageWrapper from './PageWrapper';
 
+const GOOGLE_DOCS_URL = 'https://docs.google.com/document/d/';
+
 const NewDocPage: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -23,7 +25,7 @@ const NewDocPage: React.FC = () => {
       </Typography>
       <Typography variant='h6' sx={{ direction: 'rtl' }} gutterBottom>
         קישור למסמך:
-        <Link to={`https://docs.google.com/document/d/${documentId}`} target='_blank'>
+        <Link to={`${GOOGLE_DOCS_URL}${documentId}`} target='_blank'>
           לחץ כאן
         </Link>
       </Typography>

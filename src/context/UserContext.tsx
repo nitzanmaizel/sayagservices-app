@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { fetchAPI } from '../services/apiServices';
 import { getAccessToken, setAccessToken } from '../tokenManager';
+import { API_LOGIN, API_USER } from '../types/ApiTypes';
 
 type UserInfo = {
   name: string;
@@ -18,8 +19,6 @@ type UserContextType = {
   logout: () => void;
 };
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -31,7 +30,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const navigate = useNavigate();
 
   const login = useCallback(() => {
-    window.location.href = `${API_BASE_URL}/auth/login`;
+    window.location.href = API_LOGIN;
   }, []);
 
   const logout = useCallback(() => {
@@ -57,12 +56,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setLoading(true);
       setError(null);
 
-      const data = await fetchAPI<UserInfo>(`/auth/user`);
+      const data = await fetchAPI<UserInfo>(API_USER);
 
       setUserInfo({ name: data.name, email: data.email, picture: data.picture });
     } catch (error) {
-      setError('Error fetching user info.');
-      console.error('Error fetching user info:', error);
+      setError(`Error fetching user info, ${error}`);
       setAccessToken(null);
       setUserInfo(null);
     } finally {
@@ -72,13 +70,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     const storedAccessToken = getAccessToken();
-    console.log({ storedAccessToken });
-
-    if (!storedAccessToken) {
-      setLoading(false);
-      return;
-    }
-
+    if (!storedAccessToken) return setLoading(false);
     setError(null);
     fetchUserInfo();
   }, [fetchUserInfo]);

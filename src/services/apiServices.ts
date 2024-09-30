@@ -1,7 +1,6 @@
 import { getAccessToken } from '../tokenManager';
+import { API_FULL_URL } from '../types/ApiTypes';
 import { TableData } from '../types/table';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 type FetchAPIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 type FetchAPIResponseType = 'json' | 'text' | 'blob';
@@ -12,7 +11,7 @@ interface FetchAPIOptions {
   body?: Record<string, unknown> | TableData | null;
   queryParams?: Record<string, string | number>;
   signal?: AbortSignal;
-  responseType?: FetchAPIResponseType; // Add responseType here
+  responseType?: FetchAPIResponseType;
 }
 
 async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Promise<T> {
@@ -22,7 +21,7 @@ async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Pro
     body = null,
     queryParams = {},
     signal,
-    responseType = 'json', // Default responseType to 'json'
+    responseType = 'json',
   } = options;
 
   const accessToken = getAccessToken();
@@ -30,8 +29,8 @@ async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Pro
   try {
     const queryString = new URLSearchParams(queryParams as Record<string, string>).toString();
     const fullUrl = queryString
-      ? `${API_BASE_URL}${endpoint}?${queryString}`
-      : `${API_BASE_URL}${endpoint}`;
+      ? `${API_FULL_URL}${endpoint}?${queryString}`
+      : `${API_FULL_URL}${endpoint}`;
 
     const fetchOptions: RequestInit = {
       method,

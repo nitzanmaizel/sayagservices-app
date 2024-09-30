@@ -1,5 +1,6 @@
 import React, { createContext, useState, ReactNode, useCallback } from 'react';
 import { fetchAPI } from '../services/apiServices';
+import { API_DOCS_DOWNLOAD, API_DOCS_RECENT, API_DOCS_SEARCH } from '../types/ApiTypes';
 
 type DocType = {
   createdTime: string;
@@ -35,7 +36,7 @@ export const DocsProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       setLoading(true);
       setError(null);
-      const recentDocsRes = await fetchAPI<DocType[]>('/docs/recent');
+      const recentDocsRes = await fetchAPI<DocType[]>(API_DOCS_RECENT);
 
       if (recentDocsRes.length) {
         setRecentDocs(recentDocsRes);
@@ -59,7 +60,7 @@ export const DocsProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (createdAfter) queryParams.append('createdAfter', createdAfter);
         if (createdBefore) queryParams.append('createdBefore', createdBefore);
 
-        const res = await fetchAPI<DocType[]>(`/docs/search?${queryParams.toString()}`);
+        const res = await fetchAPI<DocType[]>(`${API_DOCS_SEARCH}?${queryParams.toString()}`);
 
         setSearchResults(res);
         setLoading(false);
@@ -74,7 +75,9 @@ export const DocsProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const handleDownload = useCallback(async (docId: string, docTitle: string) => {
     setDownloading(true);
     try {
-      const response = await fetchAPI<Blob>(`/docs/${docId}/download`, { responseType: 'blob' });
+      const response = await fetchAPI<Blob>(`${API_DOCS_DOWNLOAD}/${docId}`, {
+        responseType: 'blob',
+      });
 
       const url = window.URL.createObjectURL(response);
       const a = document.createElement('a');

@@ -14,6 +14,10 @@ export const API_DOCS_DOWNLOAD = `${API_DOCS}/download`;
 
 export const API_DOCS_RECENT = `${API_DOCS}/recent`;
 
+export const API_DOCS_CREATE = `${API_DOCS}/create`;
+
+export const API_DOCS_DELETE = `${API_DOCS}/delete`;
+
 export const API_USER = '/auth/user';
 
 export const API_LOGOUT = '/auth/logout';

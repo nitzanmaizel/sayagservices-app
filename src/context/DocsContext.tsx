@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode, useCallback } from 'react';
 import { fetchAPI } from '../services/apiServices';
-import { API_DOCS_DOWNLOAD, API_DOCS_RECENT, API_DOCS_SEARCH } from '../types/ApiTypes';
+import { API_DOCS, API_DOCS_DOWNLOAD, API_DOCS_RECENT, API_DOCS_SEARCH } from '../types/ApiTypes';
 
 type DocType = {
   createdTime: string;
@@ -17,10 +17,12 @@ type DocsContextType = {
   loading: boolean;
   downloading: boolean;
   error: string | null;
+  doc: DocType | null;
   getRecentDocs: () => void;
   searchDocs: (name?: string, createdAfter?: string, createdBefore?: string) => void;
   clearSearchResults: () => void;
   handleDownload: (docId: string, docTitle: string) => Promise<void>;
+  getDocById: (docId: string) => Promise<DocType | void>;
 };
 
 export const DocsContext = createContext<DocsContextType | undefined>(undefined);
@@ -31,6 +33,21 @@ export const DocsProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState<boolean>(false);
   const [downloading, setDownloading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [doc, setDoc] = useState<DocType | null>(null);
+
+  const getDocById = useCallback(async (docId: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const docRes = await fetchAPI<DocType>(`${API_DOCS}/${docId}`);
+
+      setDoc(docRes);
+      setLoading(false);
+    } catch (error) {
+      setError(`Error fetching document. ${error}`);
+      setLoading(false);
+    }
+  }, []);
 
   const getRecentDocs = useCallback(async () => {
     try {
@@ -104,10 +121,12 @@ export const DocsProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         loading,
         downloading,
         error,
+        doc,
         getRecentDocs,
         searchDocs,
         clearSearchResults,
         handleDownload,
+        getDocById,
       }}
     >
       {children}

@@ -9,6 +9,7 @@ type UserInfo = {
   name: string;
   picture: string;
   email: string;
+  isAdmin?: boolean;
 };
 
 type UserContextType = {
@@ -65,9 +66,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setLoading(true);
       setError(null);
 
-      const data = await fetchAPI<UserInfo>(API_USER);
+      const { name, email, picture, isAdmin } = await fetchAPI<UserInfo>(API_USER);
 
-      setUserInfo({ name: data.name, email: data.email, picture: data.picture });
+      setUserInfo({ name, email, picture, isAdmin });
     } catch (error) {
       setError(`Error fetching user info, ${error}`);
       setAccessToken(null);

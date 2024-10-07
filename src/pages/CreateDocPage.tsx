@@ -57,6 +57,7 @@ const CreateDocPage: React.FC = () => {
       navigate('/error', {
         state: {
           message: 'אירעה שגיאה בעת יצירת המסמך. אנא נסה שוב מאוחר יותר.',
+          statusCode: 400,
         },
       });
     } finally {

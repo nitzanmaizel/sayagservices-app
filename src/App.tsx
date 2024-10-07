@@ -8,9 +8,9 @@ import DashboardPage from './pages/Dashboard';
 import SearchDocPage from './pages/SearchDocPage';
 import NewDocPage from './pages/NewDocPage';
 import ErrorPage from './pages/ErrorPage';
+import CreateProductPage from './pages/CreateProductPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
-import CreateProductPage from './pages/createProductPage';
 
 const App = () => {
   return (

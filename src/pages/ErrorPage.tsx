@@ -3,20 +3,31 @@ import { Box, Typography, Button } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageWrapper from './PageWrapper';
 
+const ErrorsText = {
+  unauthorized:
+    'היי רק משתמשים שהם רשומים כאדמין יכולים להתחבר למערכת, אם אתה חושב שקרתה טעות צור קשר עם הנהלת המערכת',
+};
+
 const ErrorPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const errorMessage = (location.state as { message?: string })?.message;
+
+  let errorMessage = (location.state as { message?: string })?.message;
+  let statusCode = (location.state as { statusCode?: number })?.statusCode;
+
+  if (location.pathname === '/admin/unauthorized') {
+    errorMessage = ErrorsText.unauthorized;
+    statusCode = 401;
+  }
 
   const handleGoBack = () => navigate(-1);
-
   const handleGoHome = () => navigate('/');
 
   return (
     <PageWrapper>
       <Box sx={{ textAlign: 'center', marginTop: 8, padding: 4 }}>
         <Typography variant='h1' component='h1' gutterBottom>
-          404
+          {statusCode || 404}
         </Typography>
         {errorMessage ? (
           <Typography variant='h5' component='h2' gutterBottom>

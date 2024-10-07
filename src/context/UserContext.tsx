@@ -17,6 +17,7 @@ type UserContextType = {
   error: string | null;
   login: () => void;
   logout: () => void;
+  createAdminUser: () => void;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -38,6 +39,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setAccessToken(null);
     navigate('/');
   }, [navigate]);
+
+  const createAdminUser = useCallback(async () => {
+    try {
+      await fetchAPI('/user', { method: 'POST' });
+    } catch (error) {
+      setError(`Error creating admin user, ${error}`);
+    }
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -76,7 +85,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [fetchUserInfo]);
 
   return (
-    <UserContext.Provider value={{ userInfo, loading, error, login, logout }}>
+    <UserContext.Provider value={{ userInfo, loading, error, login, logout, createAdminUser }}>
       {children}
     </UserContext.Provider>
   );

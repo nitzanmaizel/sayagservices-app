@@ -2,19 +2,19 @@ import { getAccessToken } from '../tokenManager';
 import { API_FULL_URL } from '../types/ApiTypes';
 import { TableData } from '../types/table';
 
-type FetchAPIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
-type FetchAPIResponseType = 'json' | 'text' | 'blob';
+export type FetchAPIMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+export type FetchAPIResponseType = 'json' | 'blob' | 'text';
 
 interface FetchAPIOptions {
   method?: FetchAPIMethod;
   headers?: HeadersInit;
-  body?: Record<string, unknown> | TableData | null;
+  body?: Record<string, unknown> | FormData | TableData | null;
   queryParams?: Record<string, string | number>;
   signal?: AbortSignal;
   responseType?: FetchAPIResponseType;
 }
 
-async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Promise<T> {
+export async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Promise<T> {
   const {
     method = 'GET',
     headers = {},
@@ -27,24 +27,49 @@ async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Pro
   const accessToken = getAccessToken();
 
   try {
-    const queryString = new URLSearchParams(queryParams as Record<string, string>).toString();
+    const queryString = new URLSearchParams(
+      Object.entries(queryParams).reduce<Record<string, string>>(
+        (acc, [key, value]) => ({ ...acc, [key]: String(value) }),
+        {}
+      )
+    ).toString();
+
     const fullUrl = queryString
       ? `${API_FULL_URL}${endpoint}?${queryString}`
       : `${API_FULL_URL}${endpoint}`;
 
+    const fetchHeaders = new Headers();
+
+    fetchHeaders.set('Authorization', `Bearer ${accessToken}`);
+
+    if (headers instanceof Headers) {
+      headers.forEach((value, key) => {
+        fetchHeaders.set(key, value);
+      });
+    } else if (Array.isArray(headers)) {
+      headers.forEach(([key, value]) => {
+        fetchHeaders.set(key, value);
+      });
+    } else {
+      Object.entries(headers).forEach(([key, value]) => {
+        fetchHeaders.set(key, value);
+      });
+    }
+
     const fetchOptions: RequestInit = {
       method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-        ...headers,
-      },
+      headers: fetchHeaders,
       signal,
       credentials: 'include',
     };
 
-    if (['POST', 'PUT', 'DELETE'].includes(method) && body) {
-      fetchOptions.body = JSON.stringify(body);
+    if (body) {
+      if (body instanceof FormData) {
+        fetchOptions.body = body;
+      } else {
+        fetchHeaders.set('Content-Type', 'application/json');
+        fetchOptions.body = JSON.stringify(body);
+      }
     }
 
     const response = await fetch(fullUrl, fetchOptions);
@@ -85,4 +110,4 @@ async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {}): Pro
   }
 }
 
-export { fetchAPI };
+export default fetchAPI;

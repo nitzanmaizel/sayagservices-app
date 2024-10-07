@@ -10,6 +10,7 @@ import NewDocPage from './pages/NewDocPage';
 import ErrorPage from './pages/ErrorPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
+import CreateProductPage from './pages/createProductPage';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path='/dashboard' element={<DashboardPage />} />
         <Route path='/recent' element={<RecentDocsPage />} />
         <Route path='/search' element={<SearchDocPage />} />
+        <Route path='/new-product' element={<CreateProductPage />} />
         <Route path='/new' element={<NewDocPage />} />
       </Route>
       <Route path='*' element={<ErrorPage />} />

@@ -17,3 +17,7 @@ export const formatDateTime = (dateString: string) => {
 
   return `${formattedDate} ${formattedTime}`;
 };
+
+export const isValidNumber = (value: unknown): value is number => {
+  return typeof value === 'number' && !isNaN(value);
+};

@@ -1,6 +1,8 @@
 import { SvgIconProps } from '@mui/material';
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
+import EditIcon from '@mui/icons-material/Edit';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -25,7 +27,9 @@ export const mapTypeToIcon: Record<string, React.FC<SvgIconProps>> = {
   arrowRight: (props: SvgIconProps) => <EastOutlinedIcon {...props} />,
   analytics: (props: SvgIconProps) => <AnalyticsOutlinedIcon {...props} />,
   dashboard: (props: SvgIconProps) => <DashboardIcon {...props} />,
+  delete: (props: SvgIconProps) => <DeleteForeverIcon {...props} />,
   doc: (props: SvgIconProps) => <DescriptionIcon {...props} />,
+  edit: (props: SvgIconProps) => <EditIcon {...props} />,
   info: (props: SvgIconProps) => <InfoIcon {...props} />,
   products: (props: SvgIconProps) => <Inventory2OutlinedIcon {...props} />,
   searchDoc: (props: SvgIconProps) => <FindInPageIcon {...props} />,

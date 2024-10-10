@@ -42,7 +42,7 @@ const UsersPage = () => {
         onClose={handleClose}
         PaperProps={{
           component: 'form',
-          sx: { minWidth: 600 },
+          sx: { minWidth: 300, p: 0 },
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);

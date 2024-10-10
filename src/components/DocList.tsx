@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  Button,
-  CircularProgress,
-  ImageList,
-  ImageListItem,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Button, ImageList, ImageListItem, Typography, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
+import Loader from './Loader';
 import { formatDateTime } from '../utils/date';
 import { useDocs } from '../hooks/useDocs';
 
@@ -46,7 +40,7 @@ const DocsList: React.FC<DocsListProps> = ({ documents }) => {
           </Link>
           <Button color='primary' variant='contained' onClick={() => handleDownload(id, name)}>
             {downloading ? (
-              <CircularProgress sx={{ color: '#fff' }} size={20} />
+              <Loader color='#fff' />
             ) : (
               <Typography sx={{ direction: 'rtl' }}>הורד PDF</Typography>
             )}

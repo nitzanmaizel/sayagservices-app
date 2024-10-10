@@ -9,6 +9,7 @@ import SearchDocPage from './pages/SearchDocPage';
 import NewDocPage from './pages/NewDocPage';
 import ErrorPage from './pages/ErrorPage';
 import CreateProductPage from './pages/CreateProductPage';
+import UsersPage from './pages/UsersPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -21,6 +22,7 @@ const App = () => {
       <Route element={<ProtectedRoute />}>
         <Route path='/create' element={<CreateDocPage />} />
         <Route path='/dashboard' element={<DashboardPage />} />
+        <Route path='/users' element={<UsersPage />} />
         <Route path='/recent' element={<RecentDocsPage />} />
         <Route path='/search' element={<SearchDocPage />} />
         <Route path='/new-product' element={<CreateProductPage />} />

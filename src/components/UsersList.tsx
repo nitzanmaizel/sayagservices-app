@@ -57,7 +57,7 @@ const UsersList: React.FC = () => {
   return (
     <>
       <TableContainer sx={{ boxShadow: 3 }} component={Paper}>
-        <Table>
+        <Table sx={{ 'td, th': { whiteSpace: 'nowrap' } }}>
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>

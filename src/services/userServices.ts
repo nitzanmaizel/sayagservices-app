@@ -43,10 +43,10 @@ export function useCreateUserMutation() {
     onSuccess: (createdUser, _newUser, context) => {
       const previousData = context?.previousData;
       if (previousData) {
-        const updatedUsers = previousData.users.map((user) =>
-          user._id === context.tempId ? createdUser : user
-        );
-        queryClient.setQueryData(['users'], { ...previousData, users: updatedUsers });
+        queryClient.setQueryData(['users'], {
+          ...previousData,
+          users: [...previousData.users, createdUser],
+        });
       }
       showSnackbar('User created successfully');
     },
@@ -88,8 +88,14 @@ export function useUpdateUserMutation() {
       queryClient.setQueryData(['users'], context?.previousData);
       showSnackbar('Error updating user', 'error');
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+    onSuccess: (_createdUser, updatedUser, context) => {
+      const previousData = context?.previousData;
+      if (previousData) {
+        const updatedUsers = previousData.users.map((user) =>
+          user._id === updatedUser._id ? updatedUser : user
+        );
+        queryClient.setQueryData(['users'], { ...previousData, users: updatedUsers });
+      }
       showSnackbar('User edited successfully');
     },
   });

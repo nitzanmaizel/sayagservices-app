@@ -8,3 +8,10 @@ export interface IProduct {
   updatedAt: string;
   __v: number;
 }
+
+export interface RIProductsType {
+  products: IProduct[];
+  limit: number;
+  page: number;
+  total: number;
+}

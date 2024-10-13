@@ -12,6 +12,7 @@ import CreateProductPage from './pages/CreateProductPage';
 import UsersPage from './pages/UsersPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
+import ProductsPage from './pages/ProductsPage';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Route path='/' element={<HomePage />} />
       <Route path='/error' element={<ErrorPage />} />
       <Route path='/about' element={<PageWrapper>About Page</PageWrapper>} />
+      <Route path='/products' element={<ProductsPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path='/create' element={<CreateDocPage />} />
         <Route path='/dashboard' element={<DashboardPage />} />

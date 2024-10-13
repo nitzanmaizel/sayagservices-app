@@ -1,13 +1,12 @@
 import { Card, CardContent, CardMedia, Typography, Tooltip, CardActions } from '@mui/material';
+import ProductEditModal from './ProductEditModal';
 import { IProduct } from '../../types/ProductTypes';
-import IconWrapper from '../IconWrapper/IconWrapper';
 
 interface IProductItemProps {
   product: IProduct;
-  onEdit: (product: IProduct) => void;
 }
 
-const ProductItem = ({ product, onEdit }: IProductItemProps) => {
+const ProductItem = ({ product }: IProductItemProps) => {
   const { name, description, price, imageUrl } = product;
   const formattedDescription = description.replace(/(\r\n|\n|\r)/gm, ' ');
 
@@ -30,7 +29,7 @@ const ProductItem = ({ product, onEdit }: IProductItemProps) => {
           padding: 0,
         }}
       >
-        <IconWrapper type='edit' onClick={() => onEdit(product)} />
+        <ProductEditModal productToEdit={product} />
       </CardActions>
       <CardContent
         sx={{

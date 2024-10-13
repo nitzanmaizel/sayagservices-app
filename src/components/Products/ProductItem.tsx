@@ -1,12 +1,37 @@
-import { Card, CardContent, CardMedia, Typography, CardActionArea, Tooltip } from '@mui/material';
-import { IProduct } from '../types/ProductTypes';
+import { Card, CardContent, CardMedia, Typography, Tooltip, CardActions } from '@mui/material';
+import { IProduct } from '../../types/ProductTypes';
+import IconWrapper from '../IconWrapper/IconWrapper';
 
-const ProductItem = ({ product }: { product: IProduct }) => {
+interface IProductItemProps {
+  product: IProduct;
+  onEdit: (product: IProduct) => void;
+}
+
+const ProductItem = ({ product, onEdit }: IProductItemProps) => {
   const { name, description, price, imageUrl } = product;
   const formattedDescription = description.replace(/(\r\n|\n|\r)/gm, ' ');
 
   return (
-    <Card sx={{ margin: 'auto', boxShadow: 5, height: '100%', '&:hover': { boxShadow: 6 } }}>
+    <Card
+      sx={{
+        position: 'relative',
+        margin: 'auto',
+        boxShadow: 5,
+        height: '100%',
+        '&:hover': { boxShadow: 6 },
+      }}
+    >
+      <CardActions
+        sx={{
+          position: 'absolute',
+          right: 0,
+          borderRadius: '50%',
+          background: '#fff',
+          padding: 0,
+        }}
+      >
+        <IconWrapper type='edit' onClick={() => onEdit(product)} />
+      </CardActions>
       <CardContent
         sx={{
           height: '100%',
@@ -49,7 +74,6 @@ const ProductItem = ({ product }: { product: IProduct }) => {
           }).format(price)}
         </Typography>
       </CardContent>
-      <CardActionArea></CardActionArea>
     </Card>
   );
 };

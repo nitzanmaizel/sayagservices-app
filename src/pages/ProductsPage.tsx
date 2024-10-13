@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import PageWrapper from './PageWrapper';
-import ProductsList from '../components/ProductsList';
+import ProductsList from '../components/Products/ProductsList';
 import { useUser } from '../hooks/useUser';
 
 const ProductsPage = () => {

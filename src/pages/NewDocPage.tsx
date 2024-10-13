@@ -24,7 +24,7 @@ const NewDocPage: React.FC = () => {
         שם המסמך: {title}
       </Typography>
       <Typography variant='h6' sx={{ direction: 'rtl' }} gutterBottom>
-        קישור למסמך:
+        קישור למסמך:{' '}
         <Link to={`${GOOGLE_DOCS_URL}${documentId}`} target='_blank'>
           לחץ כאן
         </Link>

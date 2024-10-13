@@ -7,10 +7,8 @@ const ProductsPage = () => {
   const { userInfo } = useUser();
   return (
     <PageWrapper>
-      <Box display={'flex'} justifyContent={userInfo?.isAdmin ? 'space-between' : 'center'}>
-        <Typography mt={3} variant='h4'>
-          Products List
-        </Typography>
+      <Box mt={3} display={'flex'} justifyContent={userInfo?.isAdmin ? 'space-between' : 'center'}>
+        <Typography variant='h4'>Products List</Typography>
         {userInfo?.isAdmin && (
           <Button
             sx={{ height: 40, alignSelf: 'center', textTransform: 'capitalize' }}

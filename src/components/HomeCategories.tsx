@@ -45,6 +45,6 @@ const categories = [
     title: 'About Us',
     icon: 'info',
     description: 'Learn more about our company and our team.',
-    link: '/analytics',
+    link: '/about',
   },
 ];

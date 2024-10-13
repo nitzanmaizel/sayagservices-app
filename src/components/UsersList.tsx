@@ -1,6 +1,7 @@
 import React from 'react';
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Button, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Box, Paper } from '@mui/material';
 
 import Loader from './Loader';
@@ -18,15 +19,21 @@ const UsersList: React.FC = () => {
   const { userInfo } = useUser();
   const { showSnackbar } = useSnackbar();
 
+  const [areYouSureOpen, setAreYouSureOpen] = React.useState(false);
+  const [userIdToDelete, setUserIdToDelete] = React.useState('');
+
   const usersQuery = useUsersQuery();
   const userUpdateMutation = useUpdateUserMutation();
   const userDeleteMutation = useDeleteUserMutation();
 
-  const handleDelete = (userId: string) => {
+  const handleDelete = () => {
+    const userId = userIdToDelete;
     if (userInfo?.email === usersQuery.data?.users.find((user) => user._id === userId)?.email) {
       return showSnackbar('You cannot delete yourself', 'error');
     }
     userDeleteMutation.mutate(userId);
+    setAreYouSureOpen(false);
+    setUserIdToDelete('');
   };
 
   const handleRollChange = (event: SelectChangeEvent, user: IUser) => {
@@ -87,7 +94,10 @@ const UsersList: React.FC = () => {
                   <Box display={'flex'}>
                     <IconWrapper
                       isDisabled={userInfo?.email === user.email}
-                      onClick={() => handleDelete(user._id!)}
+                      onClick={() => {
+                        setUserIdToDelete(user._id!);
+                        setAreYouSureOpen(true);
+                      }}
                       type='delete'
                     />
                   </Box>
@@ -97,6 +107,16 @@ const UsersList: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Dialog open={areYouSureOpen} onClose={() => setAreYouSureOpen(false)}>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to delete this user?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setAreYouSureOpen(false)}>No</Button>
+          <Button onClick={() => handleDelete()}>Yes</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

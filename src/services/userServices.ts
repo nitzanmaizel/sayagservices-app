@@ -36,9 +36,9 @@ export function useCreateUserMutation() {
 
       return { previousData, tempId };
     },
-    onError: (_error, _newUser, context) => {
+    onError: (error, _newUser, context) => {
       queryClient.setQueryData(['users'], context?.previousData);
-      showSnackbar('Error creating user', 'error');
+      showSnackbar(`Error creating user: ${error.message}`, 'error');
     },
     onSuccess: (createdUser, _newUser, context) => {
       const previousData = context?.previousData;
@@ -57,7 +57,7 @@ export function useUserQuery(userId: string) {
   return useQuery({
     queryKey: ['user', userId],
     queryFn: async () => {
-      const user = await fetchAPI<IUser>(`/user/${userId}`);
+      const user = await fetchAPI<IUser>(`/user/profile`);
       return user;
     },
   });

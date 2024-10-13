@@ -82,10 +82,16 @@ export async function fetchAPI<T>(endpoint: string, options: FetchAPIOptions = {
         const errorData = JSON.parse(errorText);
         if (errorData.message) {
           errorMessage = errorData.message;
+        } else if (errorData.error) {
+          errorMessage = errorData.error;
+        } else {
+          errorMessage = errorData;
         }
       } catch (jsonError) {
         console.warn('Failed to parse error response as JSON:', jsonError);
       }
+
+      console.log({ errorMessage });
 
       throw new Error(errorMessage);
     }

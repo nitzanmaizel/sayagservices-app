@@ -48,19 +48,19 @@ export default function HeroSection() {
 
 const itemData = [
   {
-    img: 'https://img1.wsimg.com/isteam/ip/898568d9-dd99-4882-8bd0-ffac26da4640/fmf_105259.jpg/:/rs=w:1280,h:853',
+    img: 'https://res.cloudinary.com/sayag-services-images/image/upload/v1728846408/hero_right_ntyat7.webp',
     title: 'main',
     rows: 4,
     cols: 4,
   },
   {
-    img: 'https://breadstory.co.il/wp-content/uploads/2024/08/05-4.png',
+    img: 'https://res.cloudinary.com/sayag-services-images/image/upload/v1728846410/hero_left_top_qpsjsj.png',
     title: 'top right',
     rows: 2,
     cols: 4,
   },
   {
-    img: 'https://www.grilltown.co.il/images/itempics/uploads/media_01022024134756.jpg?rnd=0.1550104?rnd=0.6630787557501396',
+    img: 'https://res.cloudinary.com/sayag-services-images/image/upload/v1728846409/hero_left_bottom_ojmbry.jpg',
     title: 'bottom right',
     rows: 2,
     cols: 4,

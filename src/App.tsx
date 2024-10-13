@@ -10,11 +10,19 @@ import NewDocPage from './pages/NewDocPage';
 import ErrorPage from './pages/ErrorPage';
 import CreateProductPage from './pages/CreateProductPage';
 import UsersPage from './pages/UsersPage';
+import ProductsPage from './pages/ProductsPage';
+import LoadingAppPage from './pages/LoadingAppPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
-import ProductsPage from './pages/ProductsPage';
+import { useUser } from './hooks/useUser';
 
 const App = () => {
+  const { loading } = useUser();
+
+  if (loading) {
+    return <LoadingAppPage />;
+  }
+
   return (
     <Routes>
       <Route path='/' element={<HomePage />} />

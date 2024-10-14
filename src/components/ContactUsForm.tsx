@@ -21,16 +21,16 @@ export const ContactUsForm = () => {
       }}
     >
       <Typography variant='h4' align='center' gutterBottom>
-        Contact Us
+        {'צור קשר'}
       </Typography>
 
-      <TextField required label='Name' variant='outlined' fullWidth />
-      <TextField required label='Email' variant='outlined' type='email' fullWidth />
-      <TextField label='Subject' variant='outlined' fullWidth />
-      <TextField required label='Message' variant='outlined' multiline rows={4} fullWidth />
+      <TextField required label='שם' variant='outlined' fullWidth />
+      <TextField required label='אימייל' variant='outlined' type='email' fullWidth />
+      <TextField label='נושא' variant='outlined' fullWidth />
+      <TextField required label='תיאור' variant='outlined' multiline rows={4} fullWidth />
 
       <Button variant='contained' color='primary' type='submit'>
-        Submit
+        {'שלח'}
       </Button>
     </Box>
   );

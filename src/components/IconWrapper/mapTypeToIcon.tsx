@@ -1,4 +1,5 @@
-import { SvgIconProps } from '@mui/material';
+import { SvgIconProps, SxProps, Theme } from '@mui/material';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
@@ -21,9 +22,13 @@ export interface IconWrapperProps extends SvgIconProps {
   type: keyof typeof mapTypeToIcon;
   isDark?: boolean;
   isDisabled?: boolean;
+  text?: string;
+  textSx?: SxProps<Theme>;
+  buttonSx?: SxProps<Theme>;
 }
 
 export const mapTypeToIcon: Record<string, React.FC<SvgIconProps>> = {
+  add: (props: SvgIconProps) => <AddCircleOutlineOutlinedIcon {...props} />,
   addDoc: (props: SvgIconProps) => <NoteAddIcon {...props} />,
   arrowRight: (props: SvgIconProps) => <EastOutlinedIcon {...props} />,
   analytics: (props: SvgIconProps) => <AnalyticsOutlinedIcon {...props} />,

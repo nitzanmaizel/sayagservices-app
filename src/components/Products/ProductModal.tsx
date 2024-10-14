@@ -110,14 +110,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
   const renderTriggerButton = () => {
     if (mode === 'create') {
       return (
-        <Button
-          sx={{ height: 40, alignSelf: 'center', textTransform: 'capitalize' }}
-          variant='contained'
-          color='primary'
+        <IconWrapper
+          type='add'
+          text='Create Product'
           onClick={() => setOpen(true)}
-        >
-          Create Product
-        </Button>
+          buttonSx={{ border: '1px solid #000' }}
+        />
       );
     } else if (mode === 'edit') {
       return <IconWrapper type='edit' onClick={() => setOpen(true)} />;

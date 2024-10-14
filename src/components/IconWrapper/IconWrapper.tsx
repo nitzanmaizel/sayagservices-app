@@ -3,7 +3,7 @@ import { Box, Button, SvgIconProps } from '@mui/material';
 import { IconWrapperProps, mapTypeToIcon } from './mapTypeToIcon';
 
 const IconWrapper: React.FC<IconWrapperProps> = (props) => {
-  const { type, isDark, isDisabled, sx, onClick, ...otherProps } = props;
+  const { type, isDark, isDisabled, sx, onClick, text, textSx, buttonSx, ...otherProps } = props;
 
   const iconSx = {
     color: isDark ? '#333' : isDisabled ? '#999' : '#000',
@@ -14,16 +14,32 @@ const IconWrapper: React.FC<IconWrapperProps> = (props) => {
     return (
       <Button
         onClick={onClick as unknown as React.MouseEventHandler<HTMLButtonElement>}
-        sx={{ minWidth: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{
+          minWidth: '20px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          ...buttonSx,
+        }}
       >
-        {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}
+        {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}{' '}
+        {text && (
+          <Box sx={{ ...textSx }} ml={1} textTransform={'capitalize'}>
+            {text}
+          </Box>
+        )}
       </Button>
     );
   }
 
   return mapTypeToIcon[type] ? (
     <Box sx={{ width: 30, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}
+      {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}{' '}
+      {text && (
+        <Box sx={{ ...textSx }} textTransform={'capitalize'}>
+          {text}
+        </Box>
+      )}
     </Box>
   ) : (
     <Box>Icon type doesn't exist</Box>

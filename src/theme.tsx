@@ -30,6 +30,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          textAlign: 'center',
+        },
+      },
+    },
   },
 });
 

@@ -16,7 +16,7 @@ const UsersPage = () => {
 
   const handleCreateUser = ({ email, name, isAdmin }: Partial<IUser>) => {
     if (!email || !name) return;
-    const newUser = { email, name, isAdmin: isAdmin ? true : false };
+    const newUser = { email, name, isAdmin: isAdmin ? true : false, googleId: '' };
     userCreateMutation.mutate(newUser);
     handleClose();
   };

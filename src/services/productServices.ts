@@ -69,6 +69,92 @@ export function useUpdateProductMutation() {
   });
 }
 
+export function useDeleteProductMutation() {
+  const { showSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
+
+  return useMutation<void, Error, string, { previousData: RIProductsType }>({
+    mutationFn: async (id) => {
+      await fetchAPI(`/products/${id}`, { method: 'DELETE' });
+    },
+    onMutate: async (id) => {
+      const { previousData, previousProducts } = await cancelAndGetPreviousProductsData(
+        queryClient
+      );
+
+      queryClient.setQueryData(['products'], {
+        ...previousData,
+        products: previousProducts.filter((product) => product._id !== id),
+      });
+
+      return { previousData };
+    },
+    onError: (_error, _id, context) => {
+      queryClient.setQueryData(['products'], context?.previousData);
+      showSnackbar('Error deleting product', 'error');
+    },
+    onSuccess: (_data, _id, context) => {
+      const previousData = context?.previousData;
+      if (previousData) {
+        queryClient.setQueryData(['products'], {
+          ...previousData,
+          products: previousData.products.filter((product) => product._id !== _id),
+        });
+      }
+      showSnackbar('Product deleted successfully');
+    },
+  });
+}
+
+export function useCreateProductMutation() {
+  const { showSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
+
+  return useMutation<IProduct, Error, FormData, { previousData: RIProductsType }>({
+    mutationFn: async (formData) => {
+      return await fetchAPI<IProduct>('/products', {
+        method: 'POST',
+        body: formData,
+      });
+    },
+    onMutate: async (formData) => {
+      const { previousData, previousProducts } = await cancelAndGetPreviousProductsData(
+        queryClient
+      );
+
+      const tempId = Date.now().toString();
+
+      const optimisticProduct: Partial<IProduct> = { _id: tempId };
+      formData.forEach((value, key) => {
+        optimisticProduct[key as keyof IProduct] = value as any;
+      });
+
+      console.log({ optimisticProduct });
+
+      queryClient.setQueryData(['products'], {
+        ...previousData,
+        products: [...previousProducts, { ...optimisticProduct }],
+      });
+
+      return { previousData };
+    },
+    onError: (_error, _formData, context) => {
+      queryClient.setQueryData(['products'], context?.previousData);
+      showSnackbar('Error creating product', 'error');
+    },
+    onSuccess: (createdProduct, _formData, context) => {
+      const previousData = context?.previousData;
+      if (previousData) {
+        queryClient.setQueryData(['products'], {
+          ...previousData,
+          products: [...previousData.products, createdProduct],
+        });
+      }
+      showSnackbar('Product created successfully');
+    },
+  });
+}
+
 async function cancelAndGetPreviousProductsData(
   queryClient: QueryClient
 ): Promise<{ previousData: RIProductsType; previousProducts: IProduct[] }> {

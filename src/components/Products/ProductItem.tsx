@@ -1,12 +1,14 @@
 import { Card, CardContent, CardMedia, Typography, Tooltip, CardActions } from '@mui/material';
-import ProductEditModal from './ProductEditModal';
 import { IProduct } from '../../types/ProductTypes';
+import { useUser } from '../../hooks/useUser';
+import ProductModal from './ProductModal';
 
 interface IProductItemProps {
   product: IProduct;
 }
 
 const ProductItem = ({ product }: IProductItemProps) => {
+  const { userInfo } = useUser();
   const { name, description, price, imageUrl } = product;
   const formattedDescription = description.replace(/(\r\n|\n|\r)/gm, ' ');
 
@@ -20,17 +22,19 @@ const ProductItem = ({ product }: IProductItemProps) => {
         '&:hover': { boxShadow: 6 },
       }}
     >
-      <CardActions
-        sx={{
-          position: 'absolute',
-          right: 0,
-          borderRadius: '50%',
-          background: '#fff',
-          padding: 0,
-        }}
-      >
-        <ProductEditModal productToEdit={product} />
-      </CardActions>
+      {userInfo?.isAdmin && (
+        <CardActions
+          sx={{
+            position: 'absolute',
+            right: 0,
+            borderRadius: '50%',
+            background: '#fff',
+            padding: 0,
+          }}
+        >
+          <ProductModal mode='edit' initialProduct={product} />
+        </CardActions>
+      )}
       <CardContent
         sx={{
           height: '100%',
@@ -70,7 +74,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
           {new Intl.NumberFormat('he-IL', {
             style: 'currency',
             currency: 'ILS',
-          }).format(price)}
+          }).format(Number(price))}
         </Typography>
       </CardContent>
     </Card>

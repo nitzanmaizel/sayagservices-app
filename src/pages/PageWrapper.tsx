@@ -1,9 +1,14 @@
 import React from 'react';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface PageWrapperProps {
+  children: React.ReactNode;
+  title?: string;
+}
+
+const PageWrapper = ({ children, title }: PageWrapperProps) => {
   return (
     <div>
       <Navbar />
@@ -15,6 +20,11 @@ const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           width: { xs: '100%', md: '100%' },
         }}
       >
+        {title && (
+          <Typography variant='h4' align='center' mt={3} mb={3}>
+            {title}
+          </Typography>
+        )}
         {children}
       </Container>
       <Footer />

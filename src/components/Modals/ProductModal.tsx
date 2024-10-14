@@ -174,7 +174,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{'ביטול'}</Button>
+          <Button variant='outlined' onClick={handleClose}>
+            {'ביטול'}
+          </Button>
           <Button onClick={handleFormSubmit} variant='contained' color='primary' type='submit'>
             {mode === 'create' ? 'צור' : 'שמור'}
           </Button>

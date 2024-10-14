@@ -1,6 +1,6 @@
 import PageWrapper from './PageWrapper';
 import UsersList from '../components/UsersList';
-import UsersModal from '../components/Users/UsersModal';
+import UsersModal from '../components/Modals/UsersModal';
 
 const UsersPage = () => {
   return (

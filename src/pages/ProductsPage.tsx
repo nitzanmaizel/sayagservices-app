@@ -1,7 +1,7 @@
 import PageWrapper from './PageWrapper';
 import ProductsList from '../components/Products/ProductsList';
 import { useUser } from '../hooks/useUser';
-import ProductModal from '../components/Products/ProductModal';
+import ProductModal from '../components/Modals/ProductModal';
 import { IProduct } from '../types/ProductTypes';
 
 const emptyProduct: Partial<IProduct> = {

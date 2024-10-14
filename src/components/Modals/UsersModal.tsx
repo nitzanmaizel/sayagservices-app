@@ -49,7 +49,9 @@ const UsersModal = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{'ביטול'}</Button>
+          <Button variant='outlined' onClick={handleClose}>
+            {'ביטול'}
+          </Button>
           <Button variant='contained' color='primary' type='submit'>
             {'הוסף משתמש'}
           </Button>

@@ -24,7 +24,7 @@ const IconWrapper: React.FC<IconWrapperProps> = (props) => {
       >
         {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}{' '}
         {text && (
-          <Box sx={{ ...textSx }} ml={1} textTransform={'capitalize'}>
+          <Box sx={{ ...textSx }} ml={1}>
             {text}
           </Box>
         )}
@@ -34,12 +34,8 @@ const IconWrapper: React.FC<IconWrapperProps> = (props) => {
 
   return mapTypeToIcon[type] ? (
     <Box sx={{ width: 30, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}{' '}
-      {text && (
-        <Box sx={{ ...textSx }} textTransform={'capitalize'}>
-          {text}
-        </Box>
-      )}
+      {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}
+      {text && <Box sx={{ ...textSx }}>{text}</Box>}
     </Box>
   ) : (
     <Box>Icon type doesn't exist</Box>

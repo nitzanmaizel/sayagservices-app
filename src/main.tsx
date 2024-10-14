@@ -8,7 +8,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
 import { SnackbarProvider } from './context/SnackbarContext.tsx';
-import { ProductProvider } from './context/ProductContext.tsx';
 import { UserProvider } from './context/UserContext';
 import { DocsProvider } from './context/DocsContext';
 import App from './App.tsx';
@@ -24,13 +23,11 @@ createRoot(document.getElementById('root')!).render(
         <SnackbarProvider>
           <UserProvider>
             <DocsProvider>
-              <ProductProvider>
-                <ThemeProvider theme={theme}>
-                  <CssBaseline />
-                  <App />
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </ThemeProvider>
-              </ProductProvider>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <App />
+                <ReactQueryDevtools initialIsOpen={false} />
+              </ThemeProvider>
             </DocsProvider>
           </UserProvider>
         </SnackbarProvider>

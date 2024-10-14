@@ -23,11 +23,7 @@ const IconWrapper: React.FC<IconWrapperProps> = (props) => {
         }}
       >
         {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}{' '}
-        {text && (
-          <Box sx={{ ...textSx }} ml={1}>
-            {text}
-          </Box>
-        )}
+        {text && <Box sx={{ ...textSx }}>{text}</Box>}
       </Button>
     );
   }

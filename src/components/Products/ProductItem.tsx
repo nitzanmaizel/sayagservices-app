@@ -1,9 +1,9 @@
-import { Card, CardContent, CardMedia, Typography, Tooltip, CardActions } from '@mui/material';
-import ProductModal from '../Modals/ProductModal';
-import AreYouSureModal from '../Modals/AreYouSureModal';
+import { Card, CardContent, CardMedia, Typography, Tooltip, Box } from '@mui/material';
+
 import { IProduct } from '../../types/ProductTypes';
 import { useUser } from '../../hooks/useUser';
-import { useDeleteProductMutation } from '../../services/productServices';
+
+import ProductItemActions from './ProductItemActions';
 
 interface IProductItemProps {
   product: IProduct;
@@ -11,14 +11,8 @@ interface IProductItemProps {
 
 const ProductItem = ({ product }: IProductItemProps) => {
   const { userInfo } = useUser();
-  const productDeleteMutation = useDeleteProductMutation();
 
   const { name, description, price, imageUrl } = product;
-  const formattedDescription = description.replace(/(\r\n|\n|\r)/gm, ' ');
-
-  const handleDelete = (productId: string) => {
-    productDeleteMutation.mutate(productId);
-  };
 
   return (
     <Card
@@ -30,21 +24,6 @@ const ProductItem = ({ product }: IProductItemProps) => {
         '&:hover': { boxShadow: 6 },
       }}
     >
-      {userInfo?.isAdmin && (
-        <CardActions
-          sx={{
-            position: 'absolute',
-            left: 0,
-            borderRadius: '50%',
-            background: '#fff',
-            padding: 0,
-            '& >:not(style)~:not(style)': { margin: 0, paddingLeft: 0 },
-          }}
-        >
-          <AreYouSureModal item='מוצר' handleDelete={() => handleDelete(product._id!)} />
-          <ProductModal mode='edit' initialProduct={product} />
-        </CardActions>
-      )}
       <CardContent
         sx={{
           height: '100%',
@@ -72,20 +51,24 @@ const ProductItem = ({ product }: IProductItemProps) => {
               display: '-webkit-box',
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
+              whiteSpace: 'pre-line',
               textOverflow: 'ellipsis',
               flexGrow: 1,
               WebkitLineClamp: { xs: 3, sm: 4, md: 5 },
             }}
           >
-            {formattedDescription}
+            {description}
           </Typography>
         </Tooltip>
-        <Typography variant='h6' color='text.primary'>
-          {new Intl.NumberFormat('he-IL', {
-            style: 'currency',
-            currency: 'ILS',
-          }).format(Number(price))}
-        </Typography>
+        <Box display={'flex'} justifyContent={'space-between'}>
+          <Typography variant='h6' color='text.primary'>
+            {new Intl.NumberFormat('he-IL', {
+              style: 'currency',
+              currency: 'ILS',
+            }).format(Number(price))}
+          </Typography>
+          {userInfo?.isAdmin && <ProductItemActions product={product} />}
+        </Box>
       </CardContent>
     </Card>
   );

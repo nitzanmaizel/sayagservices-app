@@ -12,9 +12,10 @@ import { useCreateProductMutation, useUpdateProductMutation } from '../../servic
 interface ProductModalProps {
   mode: 'create' | 'edit';
   initialProduct?: Partial<IProduct>;
+  onClose?: () => void;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }) => {
+const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {}, onClose }) => {
   const { showSnackbar } = useSnackbar();
   const productCreateMutation = useCreateProductMutation();
   const productUpdateMutation = useUpdateProductMutation();
@@ -43,6 +44,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
     setProduct({});
     setImagePreview(undefined);
     setErrors({});
+    onClose && onClose();
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -125,7 +127,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
         />
       );
     } else if (mode === 'edit') {
-      return <IconWrapper type='edit' onClick={() => setOpen(true)} />;
+      return <IconWrapper text='ערוך מוצר' type='edit' onClick={() => setOpen(true)} />;
     }
   };
 

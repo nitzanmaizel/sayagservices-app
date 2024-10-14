@@ -5,16 +5,28 @@ import IconWrapper from '../IconWrapper/IconWrapper';
 
 interface AreYouSureModalProps {
   text?: string;
+  buttonText?: string;
   item?: string;
   disabled?: boolean;
   handleDelete: () => void;
+  onCancel?: () => void;
 }
 
-const AreYouSureModal = ({ text, item, disabled, handleDelete }: AreYouSureModalProps) => {
+const AreYouSureModal = ({
+  text,
+  item,
+  disabled,
+  buttonText,
+  handleDelete,
+  onCancel,
+}: AreYouSureModalProps) => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    onCancel && onCancel();
+  };
   const onConfirm = () => {
     handleDelete();
     handleClose();
@@ -22,7 +34,7 @@ const AreYouSureModal = ({ text, item, disabled, handleDelete }: AreYouSureModal
 
   return (
     <React.Fragment>
-      <IconWrapper isDisabled={disabled} onClick={handleOpen} type={'delete'} />
+      <IconWrapper text={buttonText} isDisabled={disabled} onClick={handleOpen} type={'delete'} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{'האם אתה בטוח?'}</DialogTitle>
         <DialogContent>

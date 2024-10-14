@@ -14,8 +14,10 @@ import createCache from '@emotion/cache';
 import { SnackbarProvider } from './context/SnackbarContext.tsx';
 import { UserProvider } from './context/UserContext';
 import { DocsProvider } from './context/DocsContext';
+
 import App from './App.tsx';
 import theme from './theme.tsx';
+import ScrollToTop from './utils/ScrollToTop.tsx';
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -28,6 +30,7 @@ const cacheRtl = createCache({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
+      <ScrollToTop />
       <QueryClientProvider client={queryClient}>
         <SnackbarProvider>
           <UserProvider>

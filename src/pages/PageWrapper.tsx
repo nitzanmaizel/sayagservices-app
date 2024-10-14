@@ -23,10 +23,10 @@ const PageWrapper = ({ children, title, trigger }: PageWrapperProps) => {
       >
         {title && (
           <Box position={'relative'}>
-            <Typography variant='h4' align='center' mt={3}>
+            <Typography variant='h4' align='center' mt={3} mb={2}>
               {title}
             </Typography>
-            {trigger && <Box>{trigger}</Box>}
+            {trigger && trigger}
           </Box>
         )}
         {children}

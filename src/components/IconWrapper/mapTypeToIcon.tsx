@@ -3,6 +3,7 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
+import WestOutlinedIcon from '@mui/icons-material/WestOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -31,6 +32,7 @@ export const mapTypeToIcon: Record<string, React.FC<SvgIconProps>> = {
   add: (props: SvgIconProps) => <AddCircleOutlineOutlinedIcon {...props} />,
   addDoc: (props: SvgIconProps) => <NoteAddIcon {...props} />,
   arrowRight: (props: SvgIconProps) => <EastOutlinedIcon {...props} />,
+  arrowLeft: (props: SvgIconProps) => <WestOutlinedIcon {...props} />,
   analytics: (props: SvgIconProps) => <AnalyticsOutlinedIcon {...props} />,
   dashboard: (props: SvgIconProps) => <DashboardIcon {...props} />,
   delete: (props: SvgIconProps) => <DeleteForeverIcon {...props} />,

@@ -8,7 +8,6 @@ import DashboardPage from './pages/Dashboard';
 import SearchDocPage from './pages/SearchDocPage';
 import NewDocPage from './pages/NewDocPage';
 import ErrorPage from './pages/ErrorPage';
-import CreateProductPage from './pages/CreateProductPage';
 import UsersPage from './pages/UsersPage';
 import ProductsPage from './pages/ProductsPage';
 import LoadingAppPage from './pages/LoadingAppPage';
@@ -35,7 +34,6 @@ const App = () => {
         <Route path='/users' element={<UsersPage />} />
         <Route path='/recent' element={<RecentDocsPage />} />
         <Route path='/search' element={<SearchDocPage />} />
-        <Route path='/new-product' element={<CreateProductPage />} />
         <Route path='/new' element={<NewDocPage />} />
       </Route>
       <Route path='*' element={<ErrorPage />} />

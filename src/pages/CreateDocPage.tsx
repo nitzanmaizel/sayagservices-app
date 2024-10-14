@@ -67,11 +67,12 @@ const CreateDocPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper>
-      <Typography mt='20px' variant='h4' gutterBottom>
-        יצירת מסמך חדש
-      </Typography>
-      <Box component='form' sx={{ direction: 'rtl' }} onSubmit={handleSubmit}>
+    <PageWrapper title='יצירת מסמך חדש'>
+      <Box
+        component='form'
+        sx={{ maxWidth: '600px', minWidth: 'auto', p: '10px' }}
+        onSubmit={handleSubmit}
+      >
         <TextField
           label='שם המסמך'
           variant='outlined'
@@ -114,28 +115,24 @@ const CreateDocPage: React.FC = () => {
               ))}
             </Stack>
             <Button
+              sx={{ mt: 1 }}
               color='primary'
               variant='contained'
               onClick={() => removeRow(rowIndex)}
-              sx={{ marginTop: 1 }}
             >
               למחוק שורה
             </Button>
           </Box>
         ))}
 
-        <Button variant='outlined' onClick={addRow} sx={{ marginTop: 2, marginLeft: 2 }}>
-          הוספת שורה
-        </Button>
-        <Button
-          variant='contained'
-          color='primary'
-          type='submit'
-          disabled={isSubmitting}
-          sx={{ marginTop: 2 }}
-        >
-          {isSubmitting ? 'יוצר מסמך...' : 'יצירת מסמך'}
-        </Button>
+        <Box display={'flex'} justifyContent={'flex-end'}>
+          <Button variant='outlined' onClick={addRow} sx={{ mr: 2 }}>
+            הוספת שורה
+          </Button>
+          <Button variant='contained' color='primary' type='submit' disabled={isSubmitting}>
+            {isSubmitting ? 'יוצר מסמך...' : 'יצירת מסמך'}
+          </Button>
+        </Box>
       </Box>
     </PageWrapper>
   );

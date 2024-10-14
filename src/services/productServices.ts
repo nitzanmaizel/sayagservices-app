@@ -69,43 +69,6 @@ export function useUpdateProductMutation() {
   });
 }
 
-export function useDeleteProductMutation() {
-  const { showSnackbar } = useSnackbar();
-  const queryClient = useQueryClient();
-
-  return useMutation<void, Error, string, { previousData: RIProductsType }>({
-    mutationFn: async (id) => {
-      await fetchAPI(`/products/${id}`, { method: 'DELETE' });
-    },
-    onMutate: async (id) => {
-      const { previousData, previousProducts } = await cancelAndGetPreviousProductsData(
-        queryClient
-      );
-
-      queryClient.setQueryData(['products'], {
-        ...previousData,
-        products: previousProducts.filter((product) => product._id !== id),
-      });
-
-      return { previousData };
-    },
-    onError: (_error, _id, context) => {
-      queryClient.setQueryData(['products'], context?.previousData);
-      showSnackbar('Error deleting product', 'error');
-    },
-    onSuccess: (_data, _id, context) => {
-      const previousData = context?.previousData;
-      if (previousData) {
-        queryClient.setQueryData(['products'], {
-          ...previousData,
-          products: previousData.products.filter((product) => product._id !== _id),
-        });
-      }
-      showSnackbar('Product deleted successfully');
-    },
-  });
-}
-
 export function useCreateProductMutation() {
   const { showSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
@@ -151,6 +114,43 @@ export function useCreateProductMutation() {
         });
       }
       showSnackbar('Product created successfully');
+    },
+  });
+}
+
+export function useDeleteProductMutation() {
+  const { showSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
+
+  return useMutation<void, Error, string, { previousData: RIProductsType }>({
+    mutationFn: async (id) => {
+      await fetchAPI(`/products/${id}`, { method: 'DELETE' });
+    },
+    onMutate: async (id) => {
+      const { previousData, previousProducts } = await cancelAndGetPreviousProductsData(
+        queryClient
+      );
+
+      queryClient.setQueryData(['products'], {
+        ...previousData,
+        products: previousProducts.filter((product) => product._id !== id),
+      });
+
+      return { previousData };
+    },
+    onError: (_error, _id, context) => {
+      queryClient.setQueryData(['products'], context?.previousData);
+      showSnackbar('Error deleting product', 'error');
+    },
+    onSuccess: (_data, _id, context) => {
+      const previousData = context?.previousData;
+      if (previousData) {
+        queryClient.setQueryData(['products'], {
+          ...previousData,
+          products: previousData.products.filter((product) => product._id !== _id),
+        });
+      }
+      showSnackbar('Product deleted successfully');
     },
   });
 }

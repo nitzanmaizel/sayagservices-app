@@ -29,7 +29,7 @@ const IconWrapper: React.FC<IconWrapperProps> = (props) => {
   }
 
   return mapTypeToIcon[type] ? (
-    <Box sx={{ width: 30, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       {mapTypeToIcon[type]({ ...otherProps, sx: iconSx } as SvgIconProps)}
       {text && <Box sx={{ ...textSx }}>{text}</Box>}
     </Box>

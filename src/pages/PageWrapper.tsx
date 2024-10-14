@@ -1,16 +1,17 @@
 import React from 'react';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 interface PageWrapperProps {
   children: React.ReactNode;
   title?: string;
+  trigger?: React.ReactNode;
 }
 
-const PageWrapper = ({ children, title }: PageWrapperProps) => {
+const PageWrapper = ({ children, title, trigger }: PageWrapperProps) => {
   return (
-    <div>
+    <Box position={'relative'}>
       <Navbar />
       <Container
         sx={{
@@ -21,14 +22,17 @@ const PageWrapper = ({ children, title }: PageWrapperProps) => {
         }}
       >
         {title && (
-          <Typography variant='h4' align='center' mt={3} mb={3}>
-            {title}
-          </Typography>
+          <Box position={'relative'}>
+            <Typography variant='h4' align='center' mt={3}>
+              {title}
+            </Typography>
+            {trigger && <Box>{trigger}</Box>}
+          </Box>
         )}
         {children}
       </Container>
       <Footer />
-    </div>
+    </Box>
   );
 };
 

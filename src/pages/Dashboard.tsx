@@ -5,7 +5,7 @@ import CategoryCard from '../components/CategoryCard';
 
 const DashboardPage: React.FC = () => {
   return (
-    <PageWrapper title='Dashboard'>
+    <PageWrapper title='מרכז שליטה'>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
         {categories.map((category, index) => (
           <Box
@@ -29,27 +29,27 @@ export default DashboardPage;
 
 const categories = [
   {
-    title: 'Products',
+    title: 'ניהול מוצרים',
     icon: 'products',
-    description: 'View and manage your products.',
+    description: 'ערוך, צור, מחק ונהל את רשימת מוצרים שלך.',
     link: '/products',
   },
   {
-    title: 'Orders',
+    title: 'ניהול הזמנות',
     icon: 'orders',
-    description: 'Manage your orders and shipments.',
+    description: 'עקוב אחרי הזמנות חדשות וקיימות.',
     link: '/orders',
   },
   {
-    title: 'Users',
+    title: 'ניהול משתמשים',
     icon: 'users',
-    description: 'Manage your user accounts and permissions.',
+    description: 'נהל את רשימת המשתמשים וההרשאות שלהם.',
     link: '/users',
   },
   {
-    title: 'Analytics',
+    title: 'אנליטיקה',
     icon: 'analytics',
-    description: 'View detailed analytics and reports..',
+    description: 'צפה בנתוני האנליטיקה של האתר שלך.',
     link: '/analytics',
   },
 ];

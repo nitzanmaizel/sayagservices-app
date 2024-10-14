@@ -1,11 +1,9 @@
 import React from 'react';
-import { Button, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { Box, Paper } from '@mui/material';
 
 import Loader from './Loader';
-import IconWrapper from './IconWrapper/IconWrapper';
 import {
   useDeleteUserMutation,
   useUpdateUserMutation,
@@ -14,26 +12,21 @@ import {
 import { IUser } from '../types/UserTypes';
 import { useUser } from '../hooks/useUser';
 import { useSnackbar } from '../hooks/useSnackbar';
+import AreYouSureModal from './Modals/AreYouSureModal';
 
 const UsersList: React.FC = () => {
   const { userInfo } = useUser();
   const { showSnackbar } = useSnackbar();
 
-  const [areYouSureOpen, setAreYouSureOpen] = React.useState(false);
-  const [userIdToDelete, setUserIdToDelete] = React.useState('');
-
   const usersQuery = useUsersQuery();
   const userUpdateMutation = useUpdateUserMutation();
   const userDeleteMutation = useDeleteUserMutation();
 
-  const handleDelete = () => {
-    const userId = userIdToDelete;
+  const handleDelete = (userId: string) => {
     if (userInfo?.email === usersQuery.data?.users.find((user) => user._id === userId)?.email) {
       return showSnackbar('You cannot delete yourself', 'error');
     }
     userDeleteMutation.mutate(userId);
-    setAreYouSureOpen(false);
-    setUserIdToDelete('');
   };
 
   const handleRollChange = (event: SelectChangeEvent, user: IUser) => {
@@ -62,15 +55,15 @@ const UsersList: React.FC = () => {
   }
 
   return (
-    <>
-      <TableContainer sx={{ boxShadow: 3 }} component={Paper}>
+    <React.Fragment>
+      <TableContainer sx={{ boxShadow: 3, marginTop: 1 }} component={Paper}>
         <Table sx={{ 'td, th': { whiteSpace: 'nowrap' } }}>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell>{'שם'}</TableCell>
+              <TableCell>{'אימייל'}</TableCell>
+              <TableCell>{'תפקיד'}</TableCell>
+              <TableCell>{'פעולות'}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,38 +79,23 @@ const UsersList: React.FC = () => {
                     name='role'
                     onChange={(e: SelectChangeEvent) => handleRollChange(e, user)}
                   >
-                    <MenuItem value='admin'>Admin</MenuItem>
-                    <MenuItem value='user'>User</MenuItem>
+                    <MenuItem value='admin'>{'אדמין'}</MenuItem>
+                    <MenuItem value='user'>{'משתמש'}</MenuItem>
                   </Select>
                 </TableCell>
                 <TableCell>
-                  <Box display={'flex'}>
-                    <IconWrapper
-                      isDisabled={userInfo?.email === user.email}
-                      onClick={() => {
-                        setUserIdToDelete(user._id!);
-                        setAreYouSureOpen(true);
-                      }}
-                      type='delete'
-                    />
-                  </Box>
+                  <AreYouSureModal
+                    disabled={userInfo?.email === user.email}
+                    item='משתמש'
+                    handleDelete={() => handleDelete(user._id!)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog open={areYouSureOpen} onClose={() => setAreYouSureOpen(false)}>
-        <DialogTitle>Are you sure?</DialogTitle>
-        <DialogContent>
-          <Typography>Are you sure you want to delete this user?</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setAreYouSureOpen(false)}>No</Button>
-          <Button onClick={() => handleDelete()}>Yes</Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    </React.Fragment>
   );
 };
 

@@ -6,6 +6,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 
 import { SnackbarProvider } from './context/SnackbarContext.tsx';
 import { UserProvider } from './context/UserContext';
@@ -16,6 +20,11 @@ import './index.css';
 
 const queryClient = new QueryClient();
 
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [prefixer, rtlPlugin],
+});
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
@@ -23,11 +32,13 @@ createRoot(document.getElementById('root')!).render(
         <SnackbarProvider>
           <UserProvider>
             <DocsProvider>
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <App />
-                <ReactQueryDevtools initialIsOpen={false} />
-              </ThemeProvider>
+              <CacheProvider value={cacheRtl}>
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  <App />
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </ThemeProvider>
+              </CacheProvider>
             </DocsProvider>
           </UserProvider>
         </SnackbarProvider>

@@ -4,8 +4,8 @@ import { TextField, Button, Box } from '@mui/material';
 
 import IconWrapper from '../IconWrapper/IconWrapper';
 import { IProduct } from '../../types/ProductTypes';
-import { isValidNumber } from '../../utils/date';
 import { useSnackbar } from '../../hooks/useSnackbar';
+import { isValidNumber } from '../../utils/date';
 import { getFields } from '../../utils/modalFields';
 import { useCreateProductMutation, useUpdateProductMutation } from '../../services/productServices';
 
@@ -38,6 +38,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
     };
   }, [imagePreview]);
 
+  const handleClose = () => {
+    setOpen(false);
+    setProduct({});
+    setImagePreview(undefined);
+    setErrors({});
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProduct((prev) => ({ ...prev, [name]: name === 'price' ? Number(value) : value }));
@@ -59,12 +66,12 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
     e.preventDefault();
 
     const newErrors: { [key: string]: string } = {};
-    if (!product.name) newErrors.name = 'Name is required';
-    if (!product.description) newErrors.description = 'Description is required';
+    if (!product.name) newErrors.name = 'שם המוצר הוא שדה חובה';
+    if (!product.description) newErrors.description = 'תיאור המוצר הוא שדה חובה';
     if (product.price === undefined || product.price === null) {
-      newErrors.price = 'Price is required';
-    } else if (!isValidNumber(product.price)) {
-      newErrors.price = 'Price must be a valid number';
+      newErrors.price = 'מחיר המוצר הוא שדה חובה';
+    } else if (!isValidNumber(product.price) || product.price <= 0) {
+      newErrors.price = 'מחיר המוצר חייב להיות מספר';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -112,7 +119,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
       return (
         <IconWrapper
           type='add'
-          text='Create Product'
+          text='הוסף מוצר'
           onClick={() => setOpen(true)}
           buttonSx={{ border: '1px solid #000' }}
         />
@@ -125,8 +132,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
   return (
     <>
       {renderTriggerButton()}
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth='sm'>
-        <DialogTitle>{mode === 'create' ? 'Create Product' : 'Edit Product'}</DialogTitle>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth='sm'>
+        <DialogTitle>{mode === 'create' ? 'הוסף מוצר' : 'ערוך מוצר'}</DialogTitle>
         <DialogContent>
           <form onSubmit={handleFormSubmit}>
             {fields.map(({ name, value, label, ...rest }) => (
@@ -143,9 +150,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
                 helperText={errors[name] || ''}
               />
             ))}
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 2, boxShadow: 0 }}>
               <Button variant='outlined' color='primary' component='label'>
-                Upload Image
+                {mode === 'create' ? 'הוסף תמונה' : 'שנה תמונה'}
                 <input
                   type='file'
                   hidden
@@ -167,9 +174,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ mode, initialProduct = {} }
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant='outlined' onClick={handleClose}>
+            {'ביטול'}
+          </Button>
           <Button onClick={handleFormSubmit} variant='contained' color='primary' type='submit'>
-            Save
+            {mode === 'create' ? 'צור' : 'שמור'}
           </Button>
         </DialogActions>
       </Dialog>

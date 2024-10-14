@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgress, Typography } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { useDocs } from '../hooks/useDocs';
 import PageWrapper from './PageWrapper';
 import DocsList from '../components/DocList';
@@ -12,10 +12,7 @@ const RecentDocsPage = () => {
   }, [getRecentDocs]);
 
   return (
-    <PageWrapper>
-      <Typography variant={'h1'} sx={{ fontSize: 'xx-large', margin: '20px 0' }}>
-        מסמכים אחרונים
-      </Typography>
+    <PageWrapper title='מסמכים אחרונים'>
       {loading ? <CircularProgress /> : <DocsList documents={recentDocs} />}
     </PageWrapper>
   );

@@ -15,7 +15,7 @@ interface FieldConfig {
 
 export const getFields = (product: Partial<IProduct>): FieldConfig[] => [
   {
-    label: 'Name',
+    label: 'שם',
     name: 'name',
     value: product.name || '',
     multiline: false,
@@ -23,7 +23,7 @@ export const getFields = (product: Partial<IProduct>): FieldConfig[] => [
     required: true,
   },
   {
-    label: 'Description',
+    label: 'תיאור',
     name: 'description',
     value: product.description || '',
     multiline: true,
@@ -31,7 +31,7 @@ export const getFields = (product: Partial<IProduct>): FieldConfig[] => [
     type: 'text',
   },
   {
-    label: 'Price',
+    label: 'מחיר',
     name: 'price',
     value: product.price || '',
     multiline: false,

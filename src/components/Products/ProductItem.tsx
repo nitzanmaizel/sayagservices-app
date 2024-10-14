@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, Typography, Tooltip, CardActions } from '@mui/material';
-import ProductModal from './ProductModal';
-import AreYouSureModal from '../Modal/AreYouSureModal';
+import ProductModal from '../Modals/ProductModal';
+import AreYouSureModal from '../Modals/AreYouSureModal';
 import { IProduct } from '../../types/ProductTypes';
 import { useUser } from '../../hooks/useUser';
 import { useDeleteProductMutation } from '../../services/productServices';
@@ -25,7 +25,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
       sx={{
         position: 'relative',
         margin: 'auto',
-        boxShadow: 5,
+        boxShadow: 3,
         height: '100%',
         '&:hover': { boxShadow: 6 },
       }}
@@ -34,14 +34,14 @@ const ProductItem = ({ product }: IProductItemProps) => {
         <CardActions
           sx={{
             position: 'absolute',
-            right: 0,
+            left: 0,
             borderRadius: '50%',
             background: '#fff',
             padding: 0,
             '& >:not(style)~:not(style)': { margin: 0, paddingLeft: 0 },
           }}
         >
-          <AreYouSureModal item='product' handleDelete={() => handleDelete(product._id!)} />
+          <AreYouSureModal item='מוצר' handleDelete={() => handleDelete(product._id!)} />
           <ProductModal mode='edit' initialProduct={product} />
         </CardActions>
       )}

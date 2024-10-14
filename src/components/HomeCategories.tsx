@@ -5,7 +5,7 @@ const HomeCategories = () => {
   return (
     <Box>
       <Typography variant='h4' mt={2} textAlign={'center'} gutterBottom>
-        Discover our site
+        קטגוריות
       </Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
         {categories.map((category, index) => (
@@ -30,21 +30,21 @@ export default HomeCategories;
 
 const categories = [
   {
-    title: 'Products',
+    title: 'מוצרים',
     icon: 'products',
-    description: 'See all our products.',
+    description: 'צפה ברשימת המוצרים שלנו.',
     link: '/products',
   },
   {
-    title: 'Our Work',
+    title: 'העבודות שלנו',
     icon: 'work',
-    description: 'View our portfolio and completed projects.',
+    description: 'צפה בעבודות שעשינו עבור לקוחותינו.',
     link: '/orders',
   },
   {
-    title: 'About Us',
+    title: 'אודות',
     icon: 'info',
-    description: 'Learn more about our company and our team.',
+    description: 'קרא על החברה שלנו.',
     link: '/about',
   },
 ];

@@ -18,11 +18,7 @@ const SearchDocPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper>
-      <Typography variant='h4' gutterBottom>
-        חיפוש מסמכים
-      </Typography>
-
+    <PageWrapper title='חיפוש מסמכים'>
       <Stack spacing={2} sx={{ marginBottom: 2, width: { xs: '100%', md: '50%' } }}>
         <TextField
           label='שם המסמך'

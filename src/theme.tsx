@@ -21,6 +21,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: '0 10px',
+        },
+      },
+    },
   },
 });
 

@@ -1,13 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useUser } from '../hooks/useUser';
 import { AppBar, Avatar, Box } from '@mui/material';
+
 import Sidebar from './Sidebar';
+import { useUser } from '../hooks/useUser';
 
 const Navbar: React.FC = () => {
   const { userInfo } = useUser();
   return (
-    <AppBar position='sticky' sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+    <AppBar position='sticky'>
+      <Box display={'flex'}>
+        <Sidebar />
+        {userInfo && (
+          <Box style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar src={userInfo.picture} alt={userInfo.name} />
+          </Box>
+        )}
+      </Box>
       <Link to='/'>
         <Box
           component='img'
@@ -16,14 +25,6 @@ const Navbar: React.FC = () => {
           src='/assets/logo.png'
         />
       </Link>
-      <Box display={'flex'}>
-        {userInfo && (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar src={userInfo.picture} alt={userInfo.name} />
-          </div>
-        )}
-        <Sidebar />
-      </Box>
     </AppBar>
   );
 };

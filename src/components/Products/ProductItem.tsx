@@ -25,7 +25,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
       sx={{
         position: 'relative',
         margin: 'auto',
-        boxShadow: 5,
+        boxShadow: 3,
         height: '100%',
         '&:hover': { boxShadow: 6 },
       }}
@@ -34,7 +34,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
         <CardActions
           sx={{
             position: 'absolute',
-            right: 0,
+            left: 0,
             borderRadius: '50%',
             background: '#fff',
             padding: 0,

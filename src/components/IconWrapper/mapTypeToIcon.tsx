@@ -18,6 +18,7 @@ import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export interface IconWrapperProps extends SvgIconProps {
   type: keyof typeof mapTypeToIcon;
@@ -46,6 +47,7 @@ export const mapTypeToIcon: Record<string, React.FC<SvgIconProps>> = {
   orders: (props: SvgIconProps) => <ListAltOutlinedIcon {...props} />,
   home: (props: SvgIconProps) => <HomeIcon {...props} />,
   menu: (props: SvgIconProps) => <MenuIcon {...props} />,
+  more: (props: SvgIconProps) => <MoreVertIcon {...props} />,
   users: (props: SvgIconProps) => <PeopleOutlineIcon {...props} />,
   work: (props: SvgIconProps) => <WorkOutlineIcon {...props} />,
 };

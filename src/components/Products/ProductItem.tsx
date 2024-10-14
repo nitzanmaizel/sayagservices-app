@@ -1,7 +1,7 @@
 import { Card, CardContent, CardMedia, Typography, Tooltip, CardActions } from '@mui/material';
-import ProductEditModal from './ProductEditModal';
 import { IProduct } from '../../types/ProductTypes';
 import { useUser } from '../../hooks/useUser';
+import ProductModal from './ProductModal';
 
 interface IProductItemProps {
   product: IProduct;
@@ -32,7 +32,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
             padding: 0,
           }}
         >
-          <ProductEditModal productToEdit={product} />
+          <ProductModal mode='edit' initialProduct={product} />
         </CardActions>
       )}
       <CardContent

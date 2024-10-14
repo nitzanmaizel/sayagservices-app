@@ -74,7 +74,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
           {new Intl.NumberFormat('he-IL', {
             style: 'currency',
             currency: 'ILS',
-          }).format(price)}
+          }).format(Number(price))}
         </Typography>
       </CardContent>
     </Card>

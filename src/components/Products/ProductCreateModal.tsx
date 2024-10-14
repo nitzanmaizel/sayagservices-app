@@ -1,32 +1,71 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
-import { TextField, Button, Box } from '@mui/material';
-
-import IconWrapper from '../IconWrapper/IconWrapper';
-import { IProduct } from '../../types/ProductTypes';
+import { Button, TextField, Box } from '@mui/material';
 import { useSnackbar } from '../../hooks/useSnackbar';
-import { useUpdateProductMutation } from '../../services/productServices';
+import { IProduct } from '../../types/ProductTypes';
 import { isValidNumber } from '../../utils/date';
+import { useCreateProductMutation } from '../../services/productServices';
 
-interface ProductEditModalProps {
-  productToEdit: Partial<IProduct>;
-}
+const emptyProduct: Partial<IProduct> = {
+  name: '',
+  description: '',
+  price: 0,
+  image: null,
+};
 
-const ProductEditModal = ({ productToEdit }: ProductEditModalProps) => {
+const ProductCreateModal = () => {
   const { showSnackbar } = useSnackbar();
-  const productUpdateMutation = useUpdateProductMutation();
+  const productCreateMutation = useCreateProductMutation();
 
-  const [product, setProduct] = React.useState<Partial<IProduct>>(productToEdit);
-  const [imagePreview, setImagePreview] = React.useState<string | undefined>(product?.imageUrl);
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const modalFields = getFields(product as IProduct);
+  const [open, setOpen] = React.useState(false);
+  const [imagePreview, setImagePreview] = React.useState<string | undefined>('');
+  const [product, setProduct] = React.useState<Partial<IProduct>>(emptyProduct);
 
   React.useEffect(() => {
     return () => {
       if (imagePreview) URL.revokeObjectURL(imagePreview);
     };
   }, [imagePreview]);
+
+  const modalFields = getFields(product as IProduct);
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({ ...prev, [name]: name === 'price' ? Number(value) : value }));
+  };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      const selectedImage = target.files[0];
+      setProduct((prev) => ({ ...prev, image: selectedImage }));
+      const previewURL = URL.createObjectURL(selectedImage);
+      setProduct((prev) => ({ ...prev, imageUrl: previewURL }));
+      setImagePreview(previewURL);
+    }
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!product.name || !product.description || !product.price) return;
+
+    if (!isValidNumber(product.price)) {
+      showSnackbar('Price must be a valid number', 'error');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('price', product.price.toString());
+    formData.append('imageUrl', product.imageUrl || '');
+    if (product.image) formData.append('image', product.image);
+
+    productCreateMutation.mutate(formData);
+
+    setProduct(emptyProduct);
+    setOpen(false);
+  };
 
   const renderImageUpload = () => (
     <React.Fragment>
@@ -46,45 +85,18 @@ const ProductEditModal = ({ productToEdit }: ProductEditModalProps) => {
     </React.Fragment>
   );
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: name === 'price' ? Number(value) : value }));
-  };
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    if (target.files && target.files[0]) {
-      const selectedImage = target.files[0];
-      setProduct((prev) => ({ ...prev, image: selectedImage }));
-      const previewURL = URL.createObjectURL(selectedImage);
-      setImagePreview(previewURL);
-    }
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!product.name || !product.description || !product.price) return;
-
-    if (!isValidNumber(product.price)) {
-      showSnackbar('Price must be a valid number', 'error');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('description', product.description);
-    formData.append('price', product.price.toString());
-    if (product.image) formData.append('image', product.image);
-
-    productUpdateMutation.mutate({ productId: product._id!, formData });
-    setIsOpen(false);
-  };
-
   return (
     <React.Fragment>
-      <IconWrapper type='edit' onClick={() => setIsOpen(true)} />
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth maxWidth='sm'>
-        <DialogTitle>Edit Product</DialogTitle>
+      <Button
+        sx={{ height: 40, alignSelf: 'center', textTransform: 'capitalize' }}
+        variant='contained'
+        color='primary'
+        onClick={() => setOpen(true)}
+      >
+        Create Product
+      </Button>
+      <Dialog open={open}>
+        <DialogTitle>Create Product</DialogTitle>
         <DialogContent>
           {modalFields.map(({ name, value, label, ...rest }) => (
             <TextField
@@ -101,7 +113,7 @@ const ProductEditModal = ({ productToEdit }: ProductEditModalProps) => {
           {renderImageUpload()}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
           <Button onClick={handleSubmit} variant='contained' color='primary'>
             Save
           </Button>
@@ -111,7 +123,7 @@ const ProductEditModal = ({ productToEdit }: ProductEditModalProps) => {
   );
 };
 
-export default ProductEditModal;
+export default ProductCreateModal;
 
 interface FieldConfig {
   label: string;

@@ -1,6 +1,5 @@
 import { createTheme } from '@mui/material/styles';
 
-// A custom theme for this app
 const theme = createTheme({
   palette: {
     primary: {
@@ -11,6 +10,15 @@ const theme = createTheme({
     },
     error: {
       main: '#ff1744',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'capitalize',
+        },
+      },
     },
   },
 });

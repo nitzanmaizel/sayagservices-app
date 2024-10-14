@@ -47,7 +47,7 @@ const categories = [
     link: '/users',
   },
   {
-    title: 'Analytics',
+    title: 'אנליטיקה',
     icon: 'analytics',
     description: 'צפה בנתוני האנליטיקה של האתר שלך.',
     link: '/analytics',

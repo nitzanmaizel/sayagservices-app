@@ -36,7 +36,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, icon, description, l
       </CardContent>
       <CardActions>
         <Link to={link} style={{ display: 'flex', flexDirection: 'row-reverse', width: '100%' }}>
-          <IconWrapper sx={{ marginRight: 5 }} fontSize='large' type='arrowRight' />
+          <IconWrapper sx={{ marginRight: 5 }} fontSize='large' type='arrowLeft' />
         </Link>
       </CardActions>
     </Card>

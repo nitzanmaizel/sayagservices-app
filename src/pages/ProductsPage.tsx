@@ -15,11 +15,10 @@ const emptyProduct: Partial<IProduct> = {
 const ProductsPage = () => {
   const { userInfo } = useUser();
   return (
-    <PageWrapper>
-      <Box mt={3} display={'flex'} justifyContent={userInfo?.isAdmin ? 'space-between' : 'center'}>
-        <Typography variant='h4'>Products List</Typography>
-        {userInfo?.isAdmin && <ProductModal mode='create' initialProduct={emptyProduct} />}
-      </Box>
+    <PageWrapper
+      title='רשימת מוצרים'
+      trigger={userInfo?.isAdmin && <ProductModal mode='create' initialProduct={emptyProduct} />}
+    >
       <ProductsList />
     </PageWrapper>
   );

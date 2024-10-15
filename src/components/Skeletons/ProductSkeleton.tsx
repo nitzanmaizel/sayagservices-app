@@ -3,8 +3,8 @@ import { Box, Skeleton } from '@mui/material';
 
 const ProductSkeleton: React.FC = () => {
   return (
-    <Box sx={{ width: 300, margin: 2 }}>
-      <Skeleton variant='rectangular' width={300} height={200} sx={{ borderRadius: 2 }} />
+    <Box sx={{ margin: 2 }}>
+      <Skeleton variant='rectangular' width={'100%'} height={200} sx={{ borderRadius: 2 }} />
       <Skeleton variant='text' width='60%' height={30} />
       <Skeleton variant='text' width='20%' />
       <Skeleton variant='text' width='40%' />

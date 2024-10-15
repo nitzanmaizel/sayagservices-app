@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import Loader from '../Loader';
 import ProductItem from './ProductItem';
+import ProductSkeleton from '../Skeletons/ProductSkeleton';
 import { useProductsQuery } from '../../services/productServices';
 
 const ProductsList = () => {
@@ -8,8 +8,18 @@ const ProductsList = () => {
 
   if (productsQuery.isLoading) {
     return (
-      <Box display={'flex'} justifyContent={'center'}>
-        <Loader size={40} />
+      <Box display='flex' flexWrap='wrap' justifyContent='center' sx={{ mt: 2 }}>
+        {[...Array(6)].map((_, index) => (
+          <Box
+            key={index}
+            flexBasis={{ xs: '100%', md: '33.33%' }}
+            maxWidth={{ xs: '100%', md: '33.33%' }}
+            p={1}
+            boxSizing='border-box'
+          >
+            <ProductSkeleton />
+          </Box>
+        ))}
       </Box>
     );
   }

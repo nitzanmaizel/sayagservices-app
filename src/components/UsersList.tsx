@@ -3,16 +3,16 @@ import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Box, Paper } from '@mui/material';
 
-import Loader from './Loader';
 import {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useUsersQuery,
 } from '../services/userServices';
-import { IUser } from '../types/UserTypes';
+import UserTableSkeleton from './Skeletons/UserTableSkeleton';
+import AreYouSureModal from './Modals/AreYouSureModal';
 import { useUser } from '../hooks/useUser';
 import { useSnackbar } from '../hooks/useSnackbar';
-import AreYouSureModal from './Modals/AreYouSureModal';
+import { IUser } from '../types/UserTypes';
 
 const UsersList: React.FC = () => {
   const { userInfo } = useUser();
@@ -39,11 +39,7 @@ const UsersList: React.FC = () => {
   };
 
   if (usersQuery.isLoading) {
-    return (
-      <Box display={'flex'} justifyContent={'center'}>
-        <Loader size={40} />
-      </Box>
-    );
+    return <UserTableSkeleton />;
   }
 
   if (usersQuery.isError) {

@@ -39,11 +39,7 @@ const DocsList: React.FC<DocsListProps> = ({ documents }) => {
             </Typography>
           </Link>
           <Button color='primary' variant='contained' onClick={() => handleDownload(id, name)}>
-            {downloading ? (
-              <Loader color='#fff' />
-            ) : (
-              <Typography sx={{ direction: 'rtl' }}>הורד PDF</Typography>
-            )}
+            {downloading ? <Loader color='#fff' /> : <Typography>הורד PDF</Typography>}
           </Button>
         </ImageListItem>
       ))}

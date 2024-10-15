@@ -83,7 +83,16 @@ const UsersList: React.FC = () => {
                     <MenuItem value='user'>{'משתמש'}</MenuItem>
                   </Select>
                 </TableCell>
-                <TableCell>
+                <TableCell
+                  sx={{
+                    '& .MuiBox-root': {
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      gap: 1,
+                      padding: '6px 8px',
+                    },
+                  }}
+                >
                   <AreYouSureModal
                     disabled={userInfo?.email === user.email}
                     item='משתמש'

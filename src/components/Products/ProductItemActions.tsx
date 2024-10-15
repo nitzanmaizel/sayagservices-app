@@ -22,7 +22,6 @@ const ProductItemActions = ({ product }: { product: IProduct }) => {
   return (
     <React.Fragment>
       <IconWrapper onClick={handleClick} type='more' color='primary' />
-      <Button sx={{ minWidth: 0 }}></Button>
       <Menu
         id='product-mene'
         aria-labelledby='product-menu-button'

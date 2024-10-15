@@ -39,7 +39,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
           alt={name}
           sx={{ borderRadius: 1 }}
         />
-        <Typography gutterBottom variant='h5' component='div'>
+        <Typography gutterBottom variant='h5' component='div' mt={1}>
           {name}
         </Typography>
         <Tooltip title={description}>
@@ -54,7 +54,7 @@ const ProductItem = ({ product }: IProductItemProps) => {
               whiteSpace: 'pre-line',
               textOverflow: 'ellipsis',
               flexGrow: 1,
-              WebkitLineClamp: { xs: 3, sm: 4, md: 5 },
+              WebkitLineClamp: 3,
             }}
           >
             {description}

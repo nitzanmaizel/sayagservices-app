@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 import IconWrapper from '../IconWrapper/IconWrapper';
 import { useDeleteProductMutation } from '../../services/productServices';
 import AreYouSureModal from '../Modals/AreYouSureModal';

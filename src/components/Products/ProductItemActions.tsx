@@ -12,8 +12,8 @@ const ProductItemActions = ({ product }: { product: IProduct }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+    setAnchorEl(event.currentTarget as unknown as HTMLElement);
   };
   const handleClose = () => setAnchorEl(null);
 
@@ -21,9 +21,8 @@ const ProductItemActions = ({ product }: { product: IProduct }) => {
 
   return (
     <React.Fragment>
-      <Button onClick={handleClick} sx={{ minWidth: 0 }}>
-        <IconWrapper type='more' color='primary' />
-      </Button>
+      <IconWrapper onClick={handleClick} type='more' color='primary' />
+      <Button sx={{ minWidth: 0 }}></Button>
       <Menu
         id='product-mene'
         aria-labelledby='product-menu-button'
